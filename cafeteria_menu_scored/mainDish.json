@@ -1,0 +1,314 @@
+[
+  {
+    "id": "MAIN_001",
+    "name": "동그랑땡강정",
+    "category": "메인반찬",
+    "score": 48
+  },
+  {
+    "id": "MAIN_002",
+    "name": "메추리알조림",
+    "category": "메인반찬",
+    "score": 86
+  },
+  {
+    "id": "MAIN_003",
+    "name": "스틱두부조림",
+    "category": "메인반찬",
+    "score": 90
+  },
+  {
+    "id": "MAIN_004",
+    "name": "비엔나볶음",
+    "category": "메인반찬",
+    "score": 63
+  },
+  {
+    "id": "MAIN_005",
+    "name": "계란찜",
+    "category": "메인반찬",
+    "score": 100
+  },
+  {
+    "id": "MAIN_006",
+    "name": "생선가스",
+    "category": "메인반찬",
+    "score": 83
+  },
+  {
+    "id": "MAIN_007",
+    "name": "두부조림",
+    "category": "메인반찬",
+    "score": 90
+  },
+  {
+    "id": "MAIN_008",
+    "name": "닭갈비",
+    "category": "메인반찬",
+    "score": 94
+  },
+  {
+    "id": "MAIN_009",
+    "name": "제육황태볶음",
+    "category": "메인반찬",
+    "score": 98
+  },
+  {
+    "id": "MAIN_010",
+    "name": "닭고기장조림",
+    "category": "메인반찬",
+    "score": 86
+  },
+  {
+    "id": "MAIN_011",
+    "name": "해물완자전",
+    "category": "메인반찬",
+    "score": 83
+  },
+  {
+    "id": "MAIN_012",
+    "name": "스크램블",
+    "category": "메인반찬",
+    "score": 73
+  },
+  {
+    "id": "MAIN_013",
+    "name": "계란옷소시지전",
+    "category": "메인반찬",
+    "score": 83
+  },
+  {
+    "id": "MAIN_014",
+    "name": "두부완자조림",
+    "category": "메인반찬",
+    "score": 90
+  },
+  {
+    "id": "MAIN_015",
+    "name": "소고기표고볶음",
+    "category": "메인반찬",
+    "score": 79
+  },
+  {
+    "id": "MAIN_016",
+    "name": "제육볶음",
+    "category": "메인반찬",
+    "score": 94
+  },
+  {
+    "id": "MAIN_017",
+    "name": "함박파인조림",
+    "category": "메인반찬",
+    "score": 100
+  },
+  {
+    "id": "MAIN_018",
+    "name": "돈육춘장볶음",
+    "category": "메인반찬",
+    "score": 79
+  },
+  {
+    "id": "MAIN_019",
+    "name": "고등어조림",
+    "category": "메인반찬",
+    "score": 90
+  },
+  {
+    "id": "MAIN_020",
+    "name": "연두부찜",
+    "category": "메인반찬",
+    "score": 90
+  },
+  {
+    "id": "MAIN_021",
+    "name": "함박조림",
+    "category": "메인반찬",
+    "score": 100
+  },
+  {
+    "id": "MAIN_022",
+    "name": "돈가스",
+    "category": "메인반찬",
+    "score": 83
+  },
+  {
+    "id": "MAIN_023",
+    "name": "카레덮밥",
+    "category": "메인반찬",
+    "score": 59
+  },
+  {
+    "id": "MAIN_024",
+    "name": "해물돈육볶음",
+    "category": "메인반찬",
+    "score": 98
+  },
+  {
+    "id": "MAIN_025",
+    "name": "가자미구이",
+    "category": "메인반찬",
+    "score": 90
+  },
+  {
+    "id": "MAIN_026",
+    "name": "돈육잡채",
+    "category": "메인반찬",
+    "score": 79
+  },
+  {
+    "id": "MAIN_027",
+    "name": "팝콘치킨강정",
+    "category": "메인반찬",
+    "score": 63
+  },
+  {
+    "id": "MAIN_028",
+    "name": "순살닭볶음탕",
+    "category": "메인반찬",
+    "score": 79
+  },
+  {
+    "id": "MAIN_029",
+    "name": "해물두부두루치기",
+    "category": "메인반찬",
+    "score": 83
+  },
+  {
+    "id": "MAIN_030",
+    "name": "자장덮밥",
+    "category": "메인반찬",
+    "score": 59
+  },
+  {
+    "id": "MAIN_031",
+    "name": "탕수강정",
+    "category": "메인반찬",
+    "score": 63
+  },
+  {
+    "id": "MAIN_032",
+    "name": "어묵콩나물찜",
+    "category": "메인반찬",
+    "score": 65
+  },
+  {
+    "id": "MAIN_033",
+    "name": "계란말이",
+    "category": "메인반찬",
+    "score": 94
+  },
+  {
+    "id": "MAIN_034",
+    "name": "햄전",
+    "category": "메인반찬",
+    "score": 48
+  },
+  {
+    "id": "MAIN_035",
+    "name": "너비아니조림",
+    "category": "메인반찬",
+    "score": 65
+  },
+  {
+    "id": "MAIN_036",
+    "name": "떡갈비데리야끼조림",
+    "category": "메인반찬",
+    "score": 100
+  },
+  {
+    "id": "MAIN_037",
+    "name": "두부스팸조림",
+    "category": "메인반찬",
+    "score": 79
+  },
+  {
+    "id": "MAIN_038",
+    "name": "돈육김치볶음",
+    "category": "메인반찬",
+    "score": 79
+  },
+  {
+    "id": "MAIN_039",
+    "name": "닭볶음탕",
+    "category": "메인반찬",
+    "score": 79
+  },
+  {
+    "id": "MAIN_040",
+    "name": "불고기",
+    "category": "메인반찬",
+    "score": 94
+  },
+  {
+    "id": "MAIN_041",
+    "name": "돈육볶음",
+    "category": "메인반찬",
+    "score": 94
+  },
+  {
+    "id": "MAIN_042",
+    "name": "오징어볶음",
+    "category": "메인반찬",
+    "score": 94
+  },
+  {
+    "id": "MAIN_043",
+    "name": "참치계란볶음",
+    "category": "메인반찬",
+    "score": 79
+  },
+  {
+    "id": "MAIN_044",
+    "name": "동그랑땡",
+    "category": "메인반찬",
+    "score": 59
+  },
+  {
+    "id": "MAIN_045",
+    "name": "순살닭강정",
+    "category": "메인반찬",
+    "score": 83
+  },
+  {
+    "id": "MAIN_046",
+    "name": "계란장조림",
+    "category": "메인반찬",
+    "score": 86
+  },
+  {
+    "id": "MAIN_047",
+    "name": "돈육장조림",
+    "category": "메인반찬",
+    "score": 86
+  },
+  {
+    "id": "MAIN_048",
+    "name": "메추리알장조림",
+    "category": "메인반찬",
+    "score": 86
+  },
+  {
+    "id": "MAIN_049",
+    "name": "해물동그랑땡",
+    "category": "메인반찬",
+    "score": 83
+  },
+  {
+    "id": "MAIN_050",
+    "name": "소시지전",
+    "category": "메인반찬",
+    "score": 63
+  },
+  {
+    "id": "MAIN_051",
+    "name": "두부강정",
+    "category": "메인반찬",
+    "score": 73
+  },
+  {
+    "id": "MAIN_052",
+    "name": "생선까스",
+    "category": "메인반찬",
+    "score": 83
+  }
+]

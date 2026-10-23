@@ -1,0 +1,152 @@
+[
+  {
+    "id": "RICE_001",
+    "name": "백미밥/야채죽",
+    "category": "밥",
+    "score": 86
+  },
+  {
+    "id": "RICE_002",
+    "name": "흑미밥/홍합죽",
+    "category": "밥",
+    "score": 94
+  },
+  {
+    "id": "RICE_003",
+    "name": "흑미밥/닭죽",
+    "category": "밥",
+    "score": 94
+  },
+  {
+    "id": "RICE_004",
+    "name": "흑미밥/소고기죽",
+    "category": "밥",
+    "score": 94
+  },
+  {
+    "id": "RICE_005",
+    "name": "흑미밥/새우살죽",
+    "category": "밥",
+    "score": 94
+  },
+  {
+    "id": "RICE_006",
+    "name": "흑미밥/호박죽",
+    "category": "밥",
+    "score": 94
+  },
+  {
+    "id": "RICE_007",
+    "name": "흑미밥/단호박죽",
+    "category": "밥",
+    "score": 94
+  },
+  {
+    "id": "RICE_008",
+    "name": "백미밥/단호박죽",
+    "category": "밥",
+    "score": 86
+  },
+  {
+    "id": "RICE_009",
+    "name": "백미밥/바지락살죽",
+    "category": "밥",
+    "score": 86
+  },
+  {
+    "id": "RICE_010",
+    "name": "백미밥/흑임자죽",
+    "category": "밥",
+    "score": 75
+  },
+  {
+    "id": "RICE_011",
+    "name": "백미밥/매생이죽",
+    "category": "밥",
+    "score": 77
+  },
+  {
+    "id": "RICE_012",
+    "name": "백미밥/브로콜리죽",
+    "category": "밥",
+    "score": 86
+  },
+  {
+    "id": "RICE_013",
+    "name": "백미밥/버섯죽",
+    "category": "밥",
+    "score": 86
+  },
+  {
+    "id": "RICE_014",
+    "name": "백미밥/참깨죽",
+    "category": "밥",
+    "score": 67
+  },
+  {
+    "id": "RICE_015",
+    "name": "백미밥/계란부추죽",
+    "category": "밥",
+    "score": 86
+  },
+  {
+    "id": "RICE_016",
+    "name": "백미밥/보리롤죽",
+    "category": "밥",
+    "score": 92
+  },
+  {
+    "id": "RICE_017",
+    "name": "백미밥/카레죽",
+    "category": "밥",
+    "score": 75
+  },
+  {
+    "id": "RICE_018",
+    "name": "백미밥/깻죽",
+    "category": "밥",
+    "score": 67
+  },
+  {
+    "id": "RICE_019",
+    "name": "흑미밥/전복내장죽",
+    "category": "밥",
+    "score": 86
+  },
+  {
+    "id": "RICE_020",
+    "name": "흑미밥/미역죽",
+    "category": "밥",
+    "score": 86
+  },
+  {
+    "id": "RICE_021",
+    "name": "카레덮밥",
+    "category": "밥",
+    "score": 65
+  },
+  {
+    "id": "RICE_022",
+    "name": "자장덮밥",
+    "category": "밥",
+    "score": 65
+  },
+  {
+    "id": "RICE_023",
+    "name": "두부카레덮밥",
+    "category": "밥",
+    "score": 75
+  },
+  {
+    "id": "RICE_024",
+    "name": "불고기해물덮밥",
+    "category": "밥",
+    "score": 75
+  },
+  {
+    "id": "RICE_025",
+    "name": "짜장덮밥",
+    "category": "밥",
+    "score": 65
+  }
+]

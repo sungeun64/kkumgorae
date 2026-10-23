@@ -1,0 +1,530 @@
+[
+  {
+    "id": "SIDE_001",
+    "name": "시래기볶음",
+    "category": "서브반찬",
+    "score": 50
+  },
+  {
+    "id": "SIDE_002",
+    "name": "볼어묵조림",
+    "category": "서브반찬",
+    "score": 40
+  },
+  {
+    "id": "SIDE_003",
+    "name": "도시락김",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_004",
+    "name": "건파래볶음",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_005",
+    "name": "참나물생채",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_006",
+    "name": "쑥갓나물",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_007",
+    "name": "양파장아찌",
+    "category": "서브반찬",
+    "score": 40
+  },
+  {
+    "id": "SIDE_008",
+    "name": "북어채무조림",
+    "category": "서브반찬",
+    "score": 50
+  },
+  {
+    "id": "SIDE_009",
+    "name": "고들빼기무침",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_010",
+    "name": "돈나물&초장",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_011",
+    "name": "다시마채무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_012",
+    "name": "잡채",
+    "category": "서브반찬",
+    "score": 57
+  },
+  {
+    "id": "SIDE_013",
+    "name": "숙주나물",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_014",
+    "name": "어묵볶음",
+    "category": "서브반찬",
+    "score": 57
+  },
+  {
+    "id": "SIDE_015",
+    "name": "미역줄기볶음",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_016",
+    "name": "콩나물무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_017",
+    "name": "미역오이무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_018",
+    "name": "양상추그린샐러드",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_019",
+    "name": "부추오이무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_020",
+    "name": "치커리무침",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_021",
+    "name": "감자채볶음",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_022",
+    "name": "청포묵김가루무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_023",
+    "name": "호박볶음",
+    "category": "서브반찬",
+    "score": 50
+  },
+  {
+    "id": "SIDE_024",
+    "name": "오복지",
+    "category": "서브반찬",
+    "score": 40
+  },
+  {
+    "id": "SIDE_025",
+    "name": "새송이볶음",
+    "category": "서브반찬",
+    "score": 61
+  },
+  {
+    "id": "SIDE_026",
+    "name": "청경채겉절이",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_027",
+    "name": "유부맛살볶음",
+    "category": "서브반찬",
+    "score": 40
+  },
+  {
+    "id": "SIDE_028",
+    "name": "햄채양배추볶음",
+    "category": "서브반찬",
+    "score": 61
+  },
+  {
+    "id": "SIDE_029",
+    "name": "가지양파볶음",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_030",
+    "name": "두부쑥갓버무리",
+    "category": "서브반찬",
+    "score": 77
+  },
+  {
+    "id": "SIDE_031",
+    "name": "멸치볶음",
+    "category": "서브반찬",
+    "score": 77
+  },
+  {
+    "id": "SIDE_032",
+    "name": "오이지",
+    "category": "서브반찬",
+    "score": 40
+  },
+  {
+    "id": "SIDE_033",
+    "name": "젓갈무침",
+    "category": "서브반찬",
+    "score": 61
+  },
+  {
+    "id": "SIDE_034",
+    "name": "도시락맛김",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_035",
+    "name": "소고기표고볶음",
+    "category": "서브반찬",
+    "score": 61
+  },
+  {
+    "id": "SIDE_036",
+    "name": "물만두강정",
+    "category": "서브반찬",
+    "score": 40
+  },
+  {
+    "id": "SIDE_037",
+    "name": "파래볶음",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_038",
+    "name": "새송이버섯볶음",
+    "category": "서브반찬",
+    "score": 61
+  },
+  {
+    "id": "SIDE_039",
+    "name": "도토리묵무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_040",
+    "name": "무생채",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_041",
+    "name": "치커리흑임자샐러드",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_042",
+    "name": "천사채샐러드",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_043",
+    "name": "청경채유자무침",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_044",
+    "name": "물만두튀김",
+    "category": "서브반찬",
+    "score": 40
+  },
+  {
+    "id": "SIDE_045",
+    "name": "알감자곤약조림",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_046",
+    "name": "연근조림",
+    "category": "서브반찬",
+    "score": 50
+  },
+  {
+    "id": "SIDE_047",
+    "name": "부추콩나물무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_048",
+    "name": "병아리콩조림",
+    "category": "서브반찬",
+    "score": 61
+  },
+  {
+    "id": "SIDE_049",
+    "name": "무나물볶음",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_050",
+    "name": "브로콜리흑임자무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_051",
+    "name": "참나물겉절이",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_052",
+    "name": "세발나물겉절이",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_053",
+    "name": "감자조림",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_054",
+    "name": "얼갈이무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_055",
+    "name": "깻잎지",
+    "category": "서브반찬",
+    "score": 50
+  },
+  {
+    "id": "SIDE_056",
+    "name": "마카로니샐러드",
+    "category": "서브반찬",
+    "score": 77
+  },
+  {
+    "id": "SIDE_057",
+    "name": "해초무침",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_058",
+    "name": "올방개묵무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_059",
+    "name": "적채부추무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_060",
+    "name": "오이무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_061",
+    "name": "숙주무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_062",
+    "name": "소시지볶음",
+    "category": "서브반찬",
+    "score": 57
+  },
+  {
+    "id": "SIDE_063",
+    "name": "양배추쌈&쌈장",
+    "category": "서브반찬",
+    "score": 77
+  },
+  {
+    "id": "SIDE_064",
+    "name": "무말랭이무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_065",
+    "name": "파래무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_066",
+    "name": "시금치겉절이",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_067",
+    "name": "청경채나물",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_068",
+    "name": "건새우무조림",
+    "category": "서브반찬",
+    "score": 61
+  },
+  {
+    "id": "SIDE_069",
+    "name": "얼갈이나물",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_070",
+    "name": "배추나물",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_071",
+    "name": "어묵콩나물볶음",
+    "category": "서브반찬",
+    "score": 61
+  },
+  {
+    "id": "SIDE_072",
+    "name": "무나물",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_073",
+    "name": "볼어묵볶음",
+    "category": "서브반찬",
+    "score": 57
+  },
+  {
+    "id": "SIDE_074",
+    "name": "깻잎무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_075",
+    "name": "곤약무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_076",
+    "name": "단무지",
+    "category": "서브반찬",
+    "score": 40
+  },
+  {
+    "id": "SIDE_077",
+    "name": "짜사이무침",
+    "category": "서브반찬",
+    "score": 61
+  },
+  {
+    "id": "SIDE_078",
+    "name": "비빔우동",
+    "category": "서브반찬",
+    "score": 40
+  },
+  {
+    "id": "SIDE_079",
+    "name": "오징어채볶음",
+    "category": "서브반찬",
+    "score": 61
+  },
+  {
+    "id": "SIDE_080",
+    "name": "가지나물",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_081",
+    "name": "미역초무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_082",
+    "name": "맛살미역줄기볶음",
+    "category": "서브반찬",
+    "score": 57
+  },
+  {
+    "id": "SIDE_083",
+    "name": "청경채무침",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_084",
+    "name": "실곤약무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_085",
+    "name": "시금치나물",
+    "category": "서브반찬",
+    "score": 67
+  },
+  {
+    "id": "SIDE_086",
+    "name": "고추잎무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_087",
+    "name": "천사채무침",
+    "category": "서브반찬",
+    "score": 71
+  },
+  {
+    "id": "SIDE_088",
+    "name": "얼갈이생채",
+    "category": "서브반찬",
+    "score": 71
+  }
+]

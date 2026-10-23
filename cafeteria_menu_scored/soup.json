@@ -1,0 +1,254 @@
+[
+  {
+    "id": "SOUP_001",
+    "name": "북어탕국",
+    "category": "국",
+    "score": 73
+  },
+  {
+    "id": "SOUP_002",
+    "name": "우거지국",
+    "category": "국",
+    "score": 67
+  },
+  {
+    "id": "SOUP_003",
+    "name": "무채국",
+    "category": "국",
+    "score": 67
+  },
+  {
+    "id": "SOUP_004",
+    "name": "어묵국",
+    "category": "국",
+    "score": 48
+  },
+  {
+    "id": "SOUP_005",
+    "name": "사골미역국",
+    "category": "국",
+    "score": 69
+  },
+  {
+    "id": "SOUP_006",
+    "name": "아욱국",
+    "category": "국",
+    "score": 67
+  },
+  {
+    "id": "SOUP_007",
+    "name": "콩나물국",
+    "category": "국",
+    "score": 67
+  },
+  {
+    "id": "SOUP_008",
+    "name": "시금치국",
+    "category": "국",
+    "score": 67
+  },
+  {
+    "id": "SOUP_009",
+    "name": "콩가루배추국",
+    "category": "국",
+    "score": 83
+  },
+  {
+    "id": "SOUP_010",
+    "name": "북어두부탕국",
+    "category": "국",
+    "score": 73
+  },
+  {
+    "id": "SOUP_011",
+    "name": "순두부계란국",
+    "category": "국",
+    "score": 83
+  },
+  {
+    "id": "SOUP_012",
+    "name": "근대국",
+    "category": "국",
+    "score": 67
+  },
+  {
+    "id": "SOUP_013",
+    "name": "육개장",
+    "category": "국",
+    "score": 59
+  },
+  {
+    "id": "SOUP_014",
+    "name": "얼갈이된장국",
+    "category": "국",
+    "score": 69
+  },
+  {
+    "id": "SOUP_015",
+    "name": "다시마무국",
+    "category": "국",
+    "score": 67
+  },
+  {
+    "id": "SOUP_016",
+    "name": "미역국",
+    "category": "국",
+    "score": 77
+  },
+  {
+    "id": "SOUP_017",
+    "name": "닭곰탕",
+    "category": "국",
+    "score": 75
+  },
+  {
+    "id": "SOUP_018",
+    "name": "감자계란국",
+    "category": "국",
+    "score": 83
+  },
+  {
+    "id": "SOUP_019",
+    "name": "배추된장국",
+    "category": "국",
+    "score": 69
+  },
+  {
+    "id": "SOUP_020",
+    "name": "참치김치국",
+    "category": "국",
+    "score": 57
+  },
+  {
+    "id": "SOUP_021",
+    "name": "소고기버섯맑은국",
+    "category": "국",
+    "score": 83
+  },
+  {
+    "id": "SOUP_022",
+    "name": "시금치토장국",
+    "category": "국",
+    "score": 52
+  },
+  {
+    "id": "SOUP_023",
+    "name": "근대된장국",
+    "category": "국",
+    "score": 69
+  },
+  {
+    "id": "SOUP_024",
+    "name": "열무된장국",
+    "category": "국",
+    "score": 69
+  },
+  {
+    "id": "SOUP_025",
+    "name": "소고기무국",
+    "category": "국",
+    "score": 94
+  },
+  {
+    "id": "SOUP_026",
+    "name": "북어국",
+    "category": "국",
+    "score": 73
+  },
+  {
+    "id": "SOUP_027",
+    "name": "우거지된장국",
+    "category": "국",
+    "score": 69
+  },
+  {
+    "id": "SOUP_028",
+    "name": "사골곰탕",
+    "category": "국",
+    "score": 59
+  },
+  {
+    "id": "SOUP_029",
+    "name": "콩나물맑은국",
+    "category": "국",
+    "score": 67
+  },
+  {
+    "id": "SOUP_030",
+    "name": "건새우무채국",
+    "category": "국",
+    "score": 83
+  },
+  {
+    "id": "SOUP_031",
+    "name": "순두부새우젓국",
+    "category": "국",
+    "score": 83
+  },
+  {
+    "id": "SOUP_032",
+    "name": "느타리얼갈이해장국",
+    "category": "국",
+    "score": 52
+  },
+  {
+    "id": "SOUP_033",
+    "name": "팽이유부장국",
+    "category": "국",
+    "score": 48
+  },
+  {
+    "id": "SOUP_034",
+    "name": "올갱이아욱국",
+    "category": "국",
+    "score": 61
+  },
+  {
+    "id": "SOUP_035",
+    "name": "계란국",
+    "category": "국",
+    "score": 83
+  },
+  {
+    "id": "SOUP_036",
+    "name": "청국장",
+    "category": "국",
+    "score": 67
+  },
+  {
+    "id": "SOUP_037",
+    "name": "배추국",
+    "category": "국",
+    "score": 67
+  },
+  {
+    "id": "SOUP_038",
+    "name": "어묵탕",
+    "category": "국",
+    "score": 59
+  },
+  {
+    "id": "SOUP_039",
+    "name": "잔치국수",
+    "category": "국",
+    "score": 48
+  },
+  {
+    "id": "SOUP_040",
+    "name": "유부어묵국",
+    "category": "국",
+    "score": 48
+  },
+  {
+    "id": "SOUP_041",
+    "name": "맑은장국",
+    "category": "국",
+    "score": 48
+  },
+  {
+    "id": "SOUP_042",
+    "name": "얼갈이배추국",
+    "category": "국",
+    "score": 67
+  }
+]

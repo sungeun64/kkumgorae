@@ -1,0 +1,98 @@
+[
+  {
+    "id": "KIMCHI_001",
+    "name": "배추김치",
+    "category": "김치",
+    "score": 78
+  },
+  {
+    "id": "KIMCHI_002",
+    "name": "총각김치",
+    "category": "김치",
+    "score": 85
+  },
+  {
+    "id": "KIMCHI_003",
+    "name": "열무김치",
+    "category": "김치",
+    "score": 90
+  },
+  {
+    "id": "KIMCHI_004",
+    "name": "갓김치",
+    "category": "김치",
+    "score": 65
+  },
+  {
+    "id": "KIMCHI_005",
+    "name": "백김치",
+    "category": "김치",
+    "score": 95
+  },
+  {
+    "id": "KIMCHI_006",
+    "name": "겉절이",
+    "category": "김치",
+    "score": 92
+  },
+  {
+    "id": "KIMCHI_007",
+    "name": "깍두기",
+    "category": "김치",
+    "score": 82
+  },
+  {
+    "id": "KIMCHI_008",
+    "name": "섞박지",
+    "category": "김치",
+    "score": 87
+  },
+  {
+    "id": "KIMCHI_009",
+    "name": "나박김치",
+    "category": "김치",
+    "score": 75
+  },
+  {
+    "id": "KIMCHI_010",
+    "name": "동치미",
+    "category": "김치",
+    "score": 88
+  },
+  {
+    "id": "KIMCHI_011",
+    "name": "무생채",
+    "category": "김치",
+    "score": 80
+  },
+  {
+    "id": "KIMCHI_012",
+    "name": "알타리김치",
+    "category": "김치",
+    "score": 84
+  },
+  {
+    "id": "KIMCHI_013",
+    "name": "파김치",
+    "category": "김치",
+    "score": 60
+  },
+  {
+    "id": "KIMCHI_014",
+    "name": "부추김치",
+    "category": "김치",
+    "score": 70
+  },
+  {
+    "id": "KIMCHI_015",
+    "name": "오이소박이",
+    "category": "김치",
+    "score": 30
+  },
+  {
+    "id": "KIMCHI_016",
+    "name": "깻잎김치",
+    "category": "김치",
+    "score": 73
+  }
+]
