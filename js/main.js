@@ -469,6 +469,7 @@ function addIncome(amount){
     s.cash+=amount;
     s.dailyStats.income+=amount;
 }
+function can(ap,money=0){return s.ap>=ap&&s.cash>=money;}
 
 async function loadCafeteriaMenuData() {
     if (s.cafeteriaMenuData) {
