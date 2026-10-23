@@ -469,25 +469,51 @@ function addIncome(amount){
     s.cash+=amount;
     s.dailyStats.income+=amount;
 }
-function can(ap,money=0){return s.ap>=ap&&s.cash>=money;}
-async function loadCafeteriaMenuData(){
-    if(s.cafeteriaMenuData) return s.cafeteriaMenuData;
-    const base="data/cafeteria_menu_scored/";
-    const files={rice:"rice.json",soup:"soup.json",mainDish:"mainDish.json",sideDish:"sideDish.json",kimchi:"kimchi.json"};
-    const data={};
-    try{
-        for(const [key,file] of Object.entries(files)){
-            const response=await fetch(base+file);
-            if(!response.ok) throw new Error(file);
-            data[key]=await response.json();
-        }
-        s.cafeteriaMenuData=data;
-        return data;
-    }catch(error){
-        showPopup("🍱","식단 데이터를 불러오지 못했어요","HTML 파일과 같은 위치에 cafeteria_menu_scored 폴더가 있는지 확인해 주세요. 로컬 파일을 직접 여는 대신 웹 서버에서 실행해야 JSON을 불러올 수 있습니다.");
-        return null;
+
+async function loadCafeteriaMenuData() {
+    if (s.cafeteriaMenuData) {
+        return s.cafeteriaMenuData;
     }
+    if (s.cafeteriaMenuDataPromise) {
+        return s.cafeteriaMenuDataPromise;
+    }
+
+    const base = "data/cafeteria_menu_scored/";
+    const files = {
+        rice: "rice.json",
+        soup: "soup.json",
+        mainDish: "mainDish.json",
+        sideDish: "sideDish.json",
+        kimchi: "kimchi.json"
+    };
+    s.cafeteriaMenuDataPromise = (async () => {
+        try {
+            const entries = await Promise.all(
+                Object.entries(files).map(async ([key, file]) => {
+                    const response = await fetch(base + file);
+                    if (!response.ok) {
+                        throw new Error(
+                            `${file} 로딩 실패: HTTP ${response.status}`
+                        );
+                    }
+                    const json = await response.json();
+                    if (!Array.isArray(json) || json.length === 0) {
+                        throw new Error(`${file} 데이터가 비어 있거나 형식이 올바르지 않습니다.`);
+                    }
+                    return [key, json];
+                })
+            );
+            const data = Object.fromEntries(entries);
+            s.cafeteriaMenuData = data;
+            
+            return data;
+        } finally {
+            s.cafeteriaMenuDataPromise = null;
+        }
+    })();
+    return s.cafeteriaMenuDataPromise;
 }
+
 function pickMenuItem(items){return items[Math.floor(Math.random()*items.length)];}
 async function serveCafeteriaMeal(){
     if(!s.cafeteriaInstalled||s.room<6||s.cafeteriaServedToday)return;
@@ -1407,3 +1433,7 @@ resetDailyStats();
 newDailyMissions();
 previewGoal();
 render();
+
+loadCafeteriaMenuData().catch(error => {
+    console.error("구내식당 데이터 사전 로딩 실패:", error);
+});
