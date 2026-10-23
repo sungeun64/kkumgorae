@@ -488,7 +488,8 @@
   /* 업무 탭 아래 불라불라 미리보기 */
   .anonymous-preview {
    margin-top:10px;
-   padding:8px 12px;
+   margin-bottom:18px;
+   padding:5px 12px 7px;
    border:1px solid var(--line);
    border-radius:14px;
    background:#fbfcff;
@@ -503,13 +504,46 @@
    justify-content:space-between;
    align-items:center;
    gap:8px;
-   margin-bottom:4px;
+   margin-bottom:1px;
   }
 
   .anonymous-preview-header strong {
    font-size:12px;
    font-weight:850;
    letter-spacing:-.02em;
+  }
+
+  .shared-satisfaction {
+   margin-top:4px;
+   padding-top:5px;
+   border-top:1px solid var(--line);
+  }
+  .shared-satisfaction-head {
+   display:flex;
+   align-items:center;
+   justify-content:space-between;
+   gap:8px;
+   font-size:11px;
+   font-weight:800;
+  }
+  .shared-satisfaction-track {
+   height:6px;
+   margin:4px 0 3px;
+   overflow:hidden;
+   border-radius:99px;
+   background:#e9edf6;
+  }
+  .shared-satisfaction-fill {
+   height:100%;
+   border-radius:99px;
+   transition:width .2s;
+  }
+  .shared-satisfaction-foot {
+   display:flex;
+   justify-content:space-between;
+   gap:8px;
+   color:var(--muted);
+   font-size:10px;
   }
 
   /* 게시글 목록: 업무 일지와 같은 글꼴 및 크기 */
@@ -1057,6 +1091,7 @@
      <div id="anonymousLatest">
       <p class="muted small">아직 올라온 글이 없습니다.</p>
      </div>
+     <div id="sharedSatisfaction"></div>
     </div>
     <div id="actions"></div>
    </section>
@@ -1147,7 +1182,33 @@
  const caps=[3,5,8,12,18,25,33,42,52,65];
  const mins=[0,2,4,6,10,14,19,25,32,40];
  const costs=[0,250000,500000,900000,1500000,2300000,3400000,4900000,6900000,9500000];
+ const baseHireCost=150000;
+ const environmentTiers=[
+  {name:"숯",cost:0,bonus:0},{name:"산세베리아",cost:50000,bonus:2},{name:"다잇소 공청기",cost:120000,bonus:4},{name:"중고 공청기",cost:250000,bonus:6},{name:"대기업 공청기",cost:500000,bonus:9}
+ ];
+ const drinkTiers=[
+  {name:"생수",cost:0,bonus:0},{name:"녹차티백",cost:30000,bonus:2},{name:"믹스커피",cost:60000,bonus:3},{name:"캡슐커피",cost:150000,bonus:5},{name:"음료자판기",cost:350000,bonus:8}
+ ];
+ const snackTiers=[
+  {name:"누룽지사탕",cost:0,bonus:0},{name:"오곡크리스피롤",cost:30000,bonus:2},{name:"아자스",cost:60000,bonus:3},{name:"쫀득롤",cost:150000,bonus:5},{name:"과자자판기",cost:350000,bonus:8}
+ ];
+ const deskChairTiers=[
+  {name:"기본 책상·의자",upgradeCost:0,hireSurcharge:0,satisfactionBonus:0},
+  {name:"하드시스",upgradeCost:50000,hireSurcharge:50000,satisfactionBonus:3},
+  {name:"디스커",upgradeCost:100000,hireSurcharge:150000,satisfactionBonus:5},
+  {name:"목아스",upgradeCost:200000,hireSurcharge:350000,satisfactionBonus:7},
+  {name:"구디즈",upgradeCost:350000,hireSurcharge:700000,satisfactionBonus:9},
+  {name:"털시스",upgradeCost:500000,hireSurcharge:1200000,satisfactionBonus:12},
+  {name:"허먼당길러",upgradeCost:750000,hireSurcharge:1950000,satisfactionBonus:15}
+ ];
 
+ const cafeteriaTiers=[
+  {name:"기본 급식",cost:0,scoreBonus:0},
+  {name:"조금 나아진 급식",cost:100000,scoreBonus:5},
+  {name:"영양 균형 식단",cost:250000,scoreBonus:10},
+  {name:"맛집 수준 급식",cost:500000,scoreBonus:15},
+  {name:"호텔식 구내식당",cost:1000000,scoreBonus:20}
+ ];
  const $=id=>document.getElementById(id);
  const won=n=>Math.floor(n).toLocaleString("ko-KR")+"원";
  const randomInt=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
@@ -1157,14 +1218,19 @@
   return {
    cash:500000,revenue:0,dailyRevenue:0,
    ap:5,maxAp:5,day:1,staff:1,room:1,research:0,
+    staffSatisfaction:50,
+   deskChairLevel:0,environmentLevel:0,drinkLevel:0,snackLevel:0,
+   cafeteriaInstalled:false,cafeteriaLevel:0,cafeteriaActionCount:0,cafeteriaServedToday:false,cafeteriaMenuData:null,
    xp:0,xpNext:100,level:1,
    companyName:"꿈꾸는 고래 컴퍼니",companyLogo:"🐳",started:false,
-   logs:["회사 설립 완료! 하루 행동력 5 AP를 받았습니다."],
+   logs:["회사 설립 완료! 하루 행동력 5 AP를 받았습니다.","💗 직원 만족도는 50/100에서 시작합니다."],
    anonymousPosts: [],anonymousUnread: 0,
    dailyStats:{},missions:[],missionsClaimed:false,
    catRolled:false,catVisit:null,catClaimed:false,
     catsFedSinceReward:0,debugMode:false,mouseEventShown:false,
    snackBoughtToday:false,catBonusNextDay:0,catBonusToday:0,
+   foodTruckShownToday:false,
+   firstAidKit:false,sickEventShownToday:false,sickIncomePenalty:0,
    tunaUsedToday:false,petDone:false,
    projectEventShownToday:false,resignationCheckedToday:false,
    lastSalaryDay:0,goal:null,gameOver:false
@@ -1269,6 +1335,13 @@
    "고양이 간식비는 회사 복지로 처리해주세요",
    "오늘의 업무 성과: 고양이 쓰다듬기 성공 💗"
   ],
+  foodTruck: [
+   "붕어빵 트럭 왔을 때 하나 먹을 걸... 냄새가 계속 나네",
+   "순대 트럭 맛있어 보였는데 점심 먹고 올 걸 그랬다",
+   "타코야끼 냄새 때문에 집중이 안 됨ㅋㅋ",
+   "회사 앞에 푸드트럭 오는 날은 은근 기다려짐",
+   "다음엔 푸드트럭 메뉴 같이 먹으러 가요!"
+  ],
   snack: [
    "간식 사주시는 분 복 받으세요 🥨",
    "간식 들어오니까 사무실 분위기가 달라짐",
@@ -1291,14 +1364,81 @@
    "열심히 일하는 모두에게 박수를 👏",
    "회사 생활은 역시 쉽지 않다",
    "이 글을 보는 모두에게 행운이 있기를 🍀"
+  ],
+  satisfactionPositive: [
+   "요즘 회사 분위기 꽤 괜찮은 듯 😊",
+   "복지가 조금씩 좋아지는 게 느껴진다!",
+   "우리 회사 오래 다니고 싶다",
+   "오늘은 출근길이 조금 가벼웠음",
+   "직원들 챙겨주는 거 은근 감동임",
+   "이 정도면 다닐 맛 나는 회사 아닌가요? 💗",
+   "요즘 회사 생활 만족도 높음!",
+   "우리 회사 은근 좋은 회사일지도?"
+  ],
+  satisfactionNegative: [
+   "솔직히 요즘 회사 다니기 너무 지친다...",
+   "직원들 생각도 조금 해줬으면 좋겠어요",
+   "이직 공고 슬슬 찾아보는 중",
+   "회사 분위기가 예전 같지 않네",
+   "복지 좀 신경 써주세요 제발",
+   "출근하기 싫다는 생각이 점점 커진다",
+   "요즘 회사 생활 만족도가 바닥임",
+   "이 회사 계속 다녀도 괜찮을까..."
   ]
  };
+
+ function changeStaffSatisfaction(amount, reason = "") {
+  const before = s.staffSatisfaction;
+  s.staffSatisfaction = clamp(s.staffSatisfaction + amount, 0, 100);
+  const changed = s.staffSatisfaction - before;
+  if (changed !== 0 && reason) {
+   const sign = changed > 0 ? "+" : "";
+   log(`💗 직원 만족도 ${sign}${changed} · ${reason} (현재 ${s.staffSatisfaction}/100)`);
+  }
+ }
+
+ function getSatisfactionLabel() {
+  const value = s.staffSatisfaction;
+  if (value >= 85) return "매우 만족";
+  if (value >= 70) return "만족";
+  if (value >= 50) return "보통";
+  if (value >= 30) return "불만";
+  return "매우 불만";
+ }
+ function currentHireCost() {
+  return baseHireCost + deskChairTiers[s.deskChairLevel].hireSurcharge;
+ }
+ function upgradeDeskChair() {
+  const nextLevel=s.deskChairLevel+1;
+  if(nextLevel>=deskChairTiers.length)return;
+  const tier=deskChairTiers[nextLevel];
+  const cost=tier.upgradeCost*s.staff;
+  if(s.cash<cost){
+   showPopup("🪑","자금 부족",`${tier.name} 업그레이드에는 현재 직원 ${s.staff}명 기준 ${won(cost)}이 필요합니다.`);
+   return;
+  }
+  s.cash-=cost;
+  s.deskChairLevel=nextLevel;
+  changeStaffSatisfaction(tier.satisfactionBonus, `${tier.name} 책상·의자 업그레이드`);
+  log(`🪑 책상·의자를 ${tier.name}(으)로 업그레이드했습니다. 현재 직원 ${s.staff}명 좌석에 적용 · 비용 ${won(cost)} · 만족도 보너스 +${tier.satisfactionBonus}`);
+  render();
+ }
 
  function maybeCreateanonymousPost(type = "general") {
   // 행동 한 번당 24% 확률로 새 게시글 생성
   if (Math.random() >= 0.24) return;
 
-  const pool = anonymousMessages[type] || anonymousMessages.general;
+  const pool = [...(anonymousMessages[type] || anonymousMessages.general)];
+  // 만족도가 높거나 낮을수록 해당 분위기의 게시글이 더 자주 올라옵니다.
+  if (s.staffSatisfaction >= 80) {
+   for (let i = 0; i < 3; i++) pool.push(...anonymousMessages.satisfactionPositive);
+  } else if (s.staffSatisfaction <= 35) {
+   for (let i = 0; i < 3; i++) pool.push(...anonymousMessages.satisfactionNegative);
+  } else if (s.staffSatisfaction >= 65) {
+   pool.push(...anonymousMessages.satisfactionPositive);
+  } else if (s.staffSatisfaction <= 45) {
+   pool.push(...anonymousMessages.satisfactionNegative);
+  }
   const content = pool[randomInt(0, pool.length - 1)];
 
   s.anonymousPosts.unshift({
@@ -1378,6 +1518,14 @@
     postsArea.append(renderanonymousPost(post));
    });
   }
+
+  const satisfactionArea = $("sharedSatisfaction");
+  const satisfactionColor = s.staffSatisfaction >= 70 ? "#168b66" : s.staffSatisfaction >= 40 ? "#9a6b13" : "#d94c63";
+  satisfactionArea.innerHTML = `<div class="shared-satisfaction">
+   <div class="shared-satisfaction-head"><span>💗 직원 만족도</span><span style="color:${satisfactionColor}">${getSatisfactionLabel()} · ${s.staffSatisfaction}/100</span></div>
+   <div class="shared-satisfaction-track"><div class="shared-satisfaction-fill" style="width:${s.staffSatisfaction}%;background:${satisfactionColor}"></div></div>
+   <div class="shared-satisfaction-foot"><span>만족도가 높을수록 퇴사 확률 감소</span><span>긍정 게시글 증가</span></div>
+  </div>`;
 
   $("anonymousUnreadCount").textContent =
           s.anonymousUnread > 0 ? s.anonymousUnread : "";
@@ -1500,6 +1648,58 @@
   s.dailyStats.income+=amount;
  }
  function can(ap,money=0){return s.ap>=ap&&s.cash>=money;}
+ async function loadCafeteriaMenuData(){
+  if(s.cafeteriaMenuData) return s.cafeteriaMenuData;
+  const base="cafeteria_menu_scored/";
+  const files={rice:"rice.json",soup:"soup.json",mainDish:"mainDish.json",sideDish:"sideDish.json",kimchi:"kimchi.json"};
+  const data={};
+  try{
+   for(const [key,file] of Object.entries(files)){
+    const response=await fetch(base+file);
+    if(!response.ok) throw new Error(file);
+    data[key]=await response.json();
+   }
+   s.cafeteriaMenuData=data;
+   return data;
+  }catch(error){
+   showPopup("🍱","식단 데이터를 불러오지 못했어요","HTML 파일과 같은 위치에 cafeteria_menu_scored 폴더가 있는지 확인해 주세요. 로컬 파일을 직접 여는 대신 웹 서버에서 실행해야 JSON을 불러올 수 있습니다.");
+   return null;
+  }
+ }
+ function pickMenuItem(items){return items[Math.floor(Math.random()*items.length)];}
+ async function serveCafeteriaMeal(){
+  if(!s.cafeteriaInstalled||s.room<6||s.cafeteriaServedToday)return;
+  s.cafeteriaServedToday=true;
+  const data=await loadCafeteriaMenuData();
+  if(!data){s.cafeteriaServedToday=false;render();return;}
+  const meal=[pickMenuItem(data.rice),pickMenuItem(data.soup),pickMenuItem(data.mainDish),pickMenuItem(data.sideDish),pickMenuItem(data.kimchi)];
+  const baseScore=Math.round(meal.reduce((sum,item)=>sum+(Number(item.score)||0),0)/meal.length);
+  const quality=cafeteriaTiers[s.cafeteriaLevel];
+  const totalScore=clamp(baseScore+quality.scoreBonus-10,0,100);
+  let change=0,grade="보통";
+  if(totalScore>=90){change=6;grade="아주 훌륭한 식단";}
+  else if(totalScore>=80){change=4;grade="맛있는 식단";}
+  else if(totalScore>=70){change=2;grade="괜찮은 식단";}
+  else if(totalScore>=60){change=0;grade="평범한 식단";}
+  else if(totalScore>=50){change=-2;grade="아쉬운 식단";}
+  else {change=-4;grade="실망스러운 식단";}
+  changeStaffSatisfaction(change,`구내식당 점심 · ${totalScore}점`);
+  const names=meal.map(item=>`${item.category||"메뉴"}: ${item.name}`).join("\n");
+  log(`🍱 오늘의 구내식당 식단 ${totalScore}점 · 직원 만족도 ${change>=0?"+":""}${change}`);
+  const extra=s.cafeteriaLevel===cafeteriaTiers.length-1&&Math.random()<0.28?"\n\n익명 게시판: ‘밥때문에 다닌다’":"";
+  if(extra){s.anonymousPosts.unshift({content:"밥때문에 다닌다",day:s.day,id:Date.now()+Math.random()});s.anonymousPosts=s.anonymousPosts.slice(0,100);s.anonymousUnread++;log("💬 불라불라에 ‘밥때문에 다닌다’ 게시글이 올라왔습니다.");}
+  showPopup("🍱","점심시간! 오늘의 구내식당",`${names}\n\n식단 기본 점수 ${baseScore}점 + 식당 퀄리티 ${quality.scoreBonus-10>=0?"+":""}${quality.scoreBonus-10}점\n최종 식단 점수: ${totalScore}/100 · ${grade}\n직원 만족도 변화: ${change>=0?"+":""}${change}${extra}`);
+  render();
+ }
+ function upgradeCafeteria(){
+  const next=s.cafeteriaLevel+1;
+  if(next>=cafeteriaTiers.length)return;
+  const tier=cafeteriaTiers[next];
+  if(s.cash<tier.cost){showPopup("💰","자금이 부족해요",`${tier.name} 업그레이드에는 ${won(tier.cost)}이 필요합니다.`);return;}
+  s.cash-=tier.cost;s.cafeteriaLevel=next;
+  log(`🍱 구내식당을 ${tier.name}(으)로 업그레이드했습니다. 비용 ${won(tier.cost)} · 식단 점수 보정 +${tier.scoreBonus}`);
+  render();
+ }
  function act(ap, fn) {
   if (
           s.gameOver ||
@@ -1519,6 +1719,10 @@
 
   s.ap -= ap;
   fn();
+  if(s.cafeteriaInstalled && s.room>=6 && ap>0 && !s.cafeteriaServedToday){
+   s.cafeteriaActionCount++;
+   if(s.cafeteriaActionCount>=2){s.cafeteriaActionCount=0; serveCafeteriaMeal();}
+  }
 
   // 현재 탭에 해당하는 행동으로 게시글 생성 판정
   const typeMap = {
@@ -1537,7 +1741,79 @@
   }
 
   createanonymousPostForAction(postType);
+  maybeFoodTruckEvent(ap);
+  maybeSickStaffEvent(ap);
   render();
+ }
+
+ function maybeSickStaffEvent(actionAp){
+  // 직원 5명 이상일 때 하루 한 번만 낮은 확률로 발생
+  if(actionAp<=0 || s.staff<5 || s.sickEventShownToday || !$('eventOverlay').hidden || Math.random()>=0.025) return;
+  s.sickEventShownToday=true;
+  if(s.firstAidKit){
+   showPopup("🩹","직원이 몸이 안 좋아요",`직원 한 명이 몸살 기운을 호소합니다. 회사 상비약을 제공할까요?
+
+상비약 1개가 소진됩니다.`,()=>{
+    s.firstAidKit=false;
+    changeStaffSatisfaction(2,"아픈 직원에게 상비약 제공");
+    log("🩹 아픈 직원에게 회사 상비약을 제공했습니다. 상비약 1개 소진 · 만족도 +2");
+    render();
+   },{showCancel:true,cancelText:"약을 주지 않는다",onCancel:()=>{
+    s.sickIncomePenalty+=50000;
+    changeStaffSatisfaction(-5,"아픈 직원 조퇴");
+    log("🤒 상비약을 제공하지 않아 직원이 조퇴했습니다. 정기 수익 -50,000원 · 만족도 하락");
+    render();
+   }});
+  }else{
+   s.sickIncomePenalty+=50000;
+   changeStaffSatisfaction(-5,"아픈 직원 조퇴");
+   log("🤒 상비약이 없어 아픈 직원이 조퇴했습니다. 정기 수익 -50,000원 · 만족도 하락");
+   showPopup("🤒","직원이 조퇴했어요",`회사에 상비약이 없어 직원의 상태가 더 나빠졌습니다.
+
+직원 한 명 조퇴
+오늘 정기 수익 -50,000원
+직원 만족도 -5`,null);
+  }
+ }
+
+ const foodTruckOptions = [
+  {name:"붕어빵",icon:"🐟",cost:30000,satisfaction:4,post:"붕어빵 맛있당. 팥이 최고야 🐟"},
+  {name:"순대",icon:"🍢",cost:40000,satisfaction:5,post:"회사 앞 순대 트럭 또 왔으면 좋겠다!"},
+  {name:"타코야끼",icon:"🐙",cost:50000,satisfaction:6,post:"타코야끼 문어가 통통해서 맛있었음 🐙"}
+ ];
+ function createFoodTruckPost(message) {
+  s.anonymousPosts.unshift({content:message,day:s.day,id:Date.now()+Math.random()});
+  s.anonymousPosts=s.anonymousPosts.slice(0,100);
+  s.anonymousUnread++;
+  log("💬 불라불라에 푸드트럭 관련 글이 올라왔습니다.");
+ }
+ function maybeFoodTruckEvent(actionAp) {
+  if(actionAp<=0 || s.foodTruckShownToday || Math.random()>=0.18) return;
+  s.foodTruckShownToday=true;
+  const truck=foodTruckOptions[randomInt(0,foodTruckOptions.length-1)];
+  showPopup(truck.icon,`회사 앞에 ${truck.name} 트럭이 도착했어요!`,
+   `직원들이 창밖을 보며 웅성거립니다.
+
+${truck.name}을(를) 직원들에게 사줄까요?
+구매 비용: ${won(truck.cost)}
+직원 만족도: +${truck.satisfaction}`,
+   ()=>{
+    if(s.cash<truck.cost){
+     log(`🚚 ${truck.name} 트럭을 발견했지만 자금이 부족해 구매하지 못했습니다.`);
+     showPopup("💸","자금이 부족해요",`${truck.name} 구매에는 ${won(truck.cost)}이 필요합니다. 다음 기회를 노려보세요.`);
+    }else{
+     s.cash-=truck.cost;
+     changeStaffSatisfaction(truck.satisfaction,`${truck.name} 푸드트럭 간식`);
+     log(`🚚 직원들에게 ${truck.name}을(를) 사줬습니다. 비용 ${won(truck.cost)} · 만족도 +${truck.satisfaction}`);
+     render();
+    }
+   },
+   {showCancel:true,confirmText:`사주기 · ${won(truck.cost)}`,cancelText:"그냥 보낸다",onCancel:()=>{
+    createFoodTruckPost(truck.post);
+    log(`🚚 ${truck.name} 트럭은 구매하지 않고 보냈습니다.`);
+    render();
+   }}
+  );
  }
  
  function regularIncome() {
@@ -1614,6 +1890,19 @@
   div.append(left,button(label,disabled,fn));
   return div;
  }
+ function upgradeOfficeAmenity(key, tiers){
+  const stateKey=key+"Level";
+  const nextLevel=s[stateKey]+1;
+  if(nextLevel>=tiers.length)return;
+  const tier=tiers[nextLevel];
+  if(s.cash<tier.cost){showPopup("💰","자금 부족",`${tier.name} 업그레이드에는 ${won(tier.cost)}이 필요합니다.`);return;}
+  s.cash-=tier.cost;s[stateKey]=nextLevel;
+  changeStaffSatisfaction(tier.bonus,`${tier.name} 업그레이드`);
+  const category=key==="environment"?"회사 환경":key==="drink"?"탕비실 음료":"탕비실 과자";
+  log(`🏢 ${category}를 ${tier.name}(으)로 업그레이드했습니다. 비용 ${won(tier.cost)} · 만족도 보너스 +${tier.bonus}`);
+  render();
+ }
+
  function renderActions(){
   const area=$("actions");area.innerHTML="";
   if(tab==="sales"){
@@ -1627,10 +1916,36 @@
    }),"경험치"));
   }else if(tab==="staff"){
    const full=s.staff>=caps[s.room-1];
-   area.append(row("신입 사원 채용","직원당 영업 수익 보너스 +10,000원 · 소모 2 AP · 비용 150,000원","직원 고용하기",!can(2,150000)||full,()=>act(2,()=>{
-    s.cash-=150000;s.staff++;s.dailyStats.hire++;gainXp(15);
-    log(`👤 신규 직원 채용 완료. 직원 ${s.staff}명`);
+   const hireCost=currentHireCost();
+   area.append(row("신입 사원 채용",`직원당 영업 수익 보너스 +10,000원 · 소모 2 AP · 비용 ${won(hireCost)} (${deskChairTiers[s.deskChairLevel].name} 좌석 반영)`,"직원 고용하기",!can(2,hireCost)||full,()=>act(2,()=>{
+    s.cash-=hireCost;s.staff++;s.dailyStats.hire++;gainXp(15);
+    log(`👤 신규 직원 채용 완료. 채용 비용 ${won(hireCost)} · 직원 ${s.staff}명`);
    }),full?"정원 초과":"채용"));
+   area.append(row("성과급 지급","월급 총액 기준 성과급 지급 · 지급 배수에 따라 만족도 상승","성과급 지급",s.staff<1||s.cash<Math.round(totalSalary()),()=>{
+    const bonusOptions=[
+     {label:"1배",multiplier:1,satisfaction:3},
+     {label:"1.5배",multiplier:1.5,satisfaction:5},
+     {label:"2배",multiplier:2,satisfaction:7},
+     {label:"3배",multiplier:3,satisfaction:10}
+    ];
+    showPopup("🎁","성과급 지급","지급할 성과급 배수를 선택해 주세요.",()=>{
+     const select=$("bonusMultiplierSelect");
+     const option=bonusOptions.find(item=>item.multiplier===Number(select?.value))||bonusOptions[0];
+     const cost=Math.round(totalSalary()*option.multiplier);
+     if(s.cash<cost){showPopup("💰","자금이 부족해요",`${option.label} 성과급 지급에는 ${won(cost)}이 필요합니다.`);return;}
+     s.cash-=cost;
+     changeStaffSatisfaction(option.satisfaction,`${option.label} 성과급 지급`);
+     log(`🎁 직원 ${s.staff}명에게 ${option.label} 성과급 지급 · ${won(cost)} 지출 · 만족도 +${option.satisfaction}`);
+     render();
+    },{confirmText:"지급하기",showCancel:true,cancelText:"취소",onCancel:()=>render()});
+    const eventText=$("eventText");
+    eventText.innerHTML=`<p style="margin:0 0 10px">월급 총액: <strong>${won(totalSalary())}</strong></p><label for="bonusMultiplierSelect" style="display:block;margin-bottom:6px">성과급 배수</label><select id="bonusMultiplierSelect" style="width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--navy)">${bonusOptions.map(option=>`<option value="${option.multiplier}">${option.label} · 지급액 ${won(Math.round(totalSalary()*option.multiplier))} · 만족도 +${option.satisfaction}</option>`).join("")}</select><p style="font-size:12px;color:var(--muted);margin:10px 0 0">선택한 금액만큼 지출하고 직원 만족도가 상승합니다.</p>`;
+   },"복지"));
+   area.append(row("회사 상비약",s.firstAidKit?"상비약 보유 중 · 아픈 직원에게 제공 가능":"직원 질병 이벤트 대비 · 30,000원","상비약 보유" ,s.firstAidKit||!can(0,30000),()=>{
+    s.cash-=30000;s.firstAidKit=true;
+    log("🩹 회사 상비약을 구비했습니다. 비용 30,000원");
+    render();
+   },s.firstAidKit?"보유":"복지"));
    if(full){const n=document.createElement("div");n.className="notice";n.textContent="사무실 정원이 가득 찼습니다. 사무실을 확장한 뒤 채용하세요.";area.append(n);}
   }else if(tab==="research"){
    area.append(row("자동화 연구","연구 단계마다 영업 수익 +15,000원 · 정기 수익 +5,000원 · 소모 2 AP · 비용 100,000원","연구 진행하기",!can(2,100000),()=>act(2,()=>{
@@ -1638,6 +1953,37 @@
     log(`🔬 연구 완료! 연구 단계 ${s.research}`);
    }),"Lv."+s.research));
   }else{
+   if(s.room<6){
+    area.append(row("🍱 구내식당","사무실 Lv.6부터 선택적으로 설치할 수 있어요. 직원 점심 식단과 만족도에 영향을 줍니다.","Lv.6에서 해금",true,()=>{},"잠김"));
+   }else if(!s.cafeteriaInstalled){
+    area.append(row("🍱 구내식당 설치","선택 사항 · 설치하면 하루 두 번째 AP 소모 행동 후 점심 식단이 제공됩니다.","구내식당 설치 · 무료",false,()=>{s.cafeteriaInstalled=true;s.cafeteriaLevel=0;s.cafeteriaActionCount=0;log("🍱 구내식당을 설치했습니다. 하루 두 번째 행동 후 점심시간이 발동합니다.");render();},"선택 복지"));
+   }else{
+    const cafeteriaCurrent=cafeteriaTiers[s.cafeteriaLevel];
+    area.append(row(`🍱 구내식당 · ${cafeteriaCurrent.name} (${s.cafeteriaLevel+1}/${cafeteriaTiers.length})`,`하루 두 번째 AP 소모 행동 후 점심 제공 · 식단 점수 보정 +${cafeteriaCurrent.scoreBonus}`,s.cafeteriaLevel<cafeteriaTiers.length-1?`퀄리티 업그레이드 · ${won(cafeteriaTiers[s.cafeteriaLevel+1].cost)}`:"최고 레벨",s.cafeteriaLevel>=cafeteriaTiers.length-1||!can(0,cafeteriaTiers[s.cafeteriaLevel+1]?.cost||0),upgradeCafeteria,s.cafeteriaLevel>=cafeteriaTiers.length-1?"MAX":"식당 개선"));
+    const status=document.createElement("div");status.className="notice";status.textContent=s.cafeteriaServedToday?"오늘 점심 제공 완료 · 내일 다시 식단이 제공됩니다.":`오늘 AP 소모 행동 ${s.cafeteriaActionCount}/2회 · ${2-s.cafeteriaActionCount}회 더 행동하면 점심시간입니다.`;area.append(status);
+   }
+   const envLevel=s.environmentLevel, envCurrent=environmentTiers[envLevel];
+   if(envLevel<environmentTiers.length-1){const next=environmentTiers[envLevel+1];area.append(row(`🌿 회사 환경 · ${envCurrent.name}`,`다음 등급 ${next.name} · 만족도 +${next.bonus}`,`${next.name}으로 업그레이드 · ${won(next.cost)}`,!can(0,next.cost),()=>upgradeOfficeAmenity("environment",environmentTiers),"환경"));}
+   else area.append(row(`🌿 회사 환경 · ${envCurrent.name}`,`최고 등급 · 만족도 보너스 +${envCurrent.bonus}`,"최고 등급",true,()=>{},"MAX"));
+   const drinkLevel=s.drinkLevel, drinkCurrent=drinkTiers[drinkLevel];
+   if(drinkLevel<drinkTiers.length-1){const next=drinkTiers[drinkLevel+1];area.append(row(`☕ 사내 탕비실 · 음료 (${drinkCurrent.name})`,`다음 등급 ${next.name} · 만족도 +${next.bonus}`,`${next.name}으로 업그레이드 · ${won(next.cost)}`,!can(0,next.cost),()=>upgradeOfficeAmenity("drink",drinkTiers),"음료"));}
+   else area.append(row(`☕ 사내 탕비실 · 음료 (${drinkCurrent.name})`,`최고 등급 · 만족도 보너스 +${drinkCurrent.bonus}`,"최고 등급",true,()=>{},"MAX"));
+   const snackLevel=s.snackLevel, snackCurrent=snackTiers[snackLevel];
+   if(snackLevel<snackTiers.length-1){const next=snackTiers[snackLevel+1];area.append(row(`🍪 사내 탕비실 · 과자 (${snackCurrent.name})`,`다음 등급 ${next.name} · 만족도 +${next.bonus}`,`${next.name}으로 업그레이드 · ${won(next.cost)}`,!can(0,next.cost),()=>upgradeOfficeAmenity("snack",snackTiers),"과자"));}
+   else area.append(row(`🍪 사내 탕비실 · 과자 (${snackCurrent.name})`,`최고 등급 · 만족도 보너스 +${snackCurrent.bonus}`,"최고 등급",true,()=>{},"MAX"));
+   const deskLevel=s.deskChairLevel;
+   const currentTier=deskChairTiers[deskLevel];
+   if(deskLevel<deskChairTiers.length-1){
+    const nextTier=deskChairTiers[deskLevel+1];
+    const upgradeCost=nextTier.upgradeCost*s.staff;
+    area.append(row(`🪑 책상·의자 업그레이드 · ${currentTier.name} (${deskLevel+1}/${deskChairTiers.length})`,
+     `다음 등급 ${nextTier.name} · 직원 만족도 +${nextTier.satisfactionBonus} · 직원당 ${won(nextTier.upgradeCost)} · 채용비 ${won(baseHireCost+nextTier.hireSurcharge)} · 빈 좌석 제외`,
+     `${nextTier.name}으로 업그레이드 · ${won(upgradeCost)}`,!can(0,upgradeCost),upgradeDeskChair,"복지"));
+   }else{
+    area.append(row(`🪑 책상·의자 업그레이드 · ${currentTier.name}`,
+     `최고 등급 · 직원 만족도 보너스 +${currentTier.satisfactionBonus} · 신규 채용비 ${won(currentHireCost())}`,
+     "최고 등급",true,()=>{},"MAX"));
+   }
    if(s.room>=10){
     const n=document.createElement("p");n.className="muted";n.textContent="최대 사무실 단계 Lv.10에 도달했습니다!";area.append(n);
    }else{
@@ -1689,12 +2035,15 @@
  function maybeStaffResignation(){
   if(s.resignationCheckedToday||s.level<4||s.staff<=1)return;
   s.resignationCheckedToday=true;
-  if(Math.random()>=0.08)return;
+  // 만족도 0이면 최대 20%, 100이면 0%의 일일 퇴사 확률
+  const resignationChance=0.20*(1-s.staffSatisfaction/100);
+  if(Math.random()>=resignationChance)return;
+  const satisfactionAtResignation=s.staffSatisfaction;
   const severance=salaryPerEmployee()*5;
   s.staff--;
   addIncome(-severance);
   log(`🚪 직원 한 명이 퇴사했습니다. 퇴직금 ${won(severance)} 지급`);
-  showPopup("🚪","직원 퇴사",`직원 한 명이 회사를 떠났습니다.\n퇴직금으로 ${won(severance)}을 지급했습니다.`);
+  showPopup("🚪","직원 퇴사",`직원 한 명이 회사를 떠났습니다.\n퇴직금으로 ${won(severance)}을 지급했습니다.\n퇴사 당시 직원 만족도: ${satisfactionAtResignation}/100`);
  }
 
  /* 고양이 방문 확률 */
@@ -1890,12 +2239,14 @@
 
   if(Math.random()<0.08){
    s.cash-=10000;
+   changeStaffSatisfaction(1, "고양이에게 긁혔지만 함께한 시간");
    log("🐾 냥냥펀치! 고양이에게 할퀴여 약값 10,000원 지출했습니다.");
-   showPopup("🐈‍⬛","냥냥펀치!","앗, 고양이가 손을 할퀴었어요! 약값으로 10,000원이 지출되었습니다. (-10,000원)");
+   showPopup("🐈‍⬛","냥냥펀치!","앗, 고양이가 손을 할퀴었어요! 약값으로 10,000원이 지출되었습니다. (-10,000원)\n직원 만족도 +1");
   }else{
    gainXp(s.catVisit.xp);
-   log(`💗 고양이를 쓰다듬었습니다! 방문 보상과 같은 경험치 ${s.catVisit.xp} XP를 추가로 획득했습니다.`);
-   showPopup("💗","골골송 성공!",`고양이가 기분 좋게 골골거립니다!\n경험치 ${s.catVisit.xp} XP를 추가로 얻었습니다.`);
+   changeStaffSatisfaction(3, "고양이 골골송");
+   log(`💗 고양이를 쓰다듬었습니다! 경험치 ${s.catVisit.xp} XP와 직원 만족도 +3을 획득했습니다.`);
+   showPopup("💗","골골송 성공!",`고양이가 기분 좋게 골골거립니다!\n경험치 ${s.catVisit.xp} XP를 추가로 얻었습니다.\n직원 만족도 +3`);
   }
   createanonymousPostForAction("cat");
   render();
@@ -1913,20 +2264,6 @@
    area.append(p);
 
    area.append(button("오늘의 고양이 확인하기 🐾",false,rollCatVisit));
-
-   if(!s.snackBoughtToday){
-    area.append(button(
-            "직원 간식 구매하기 🥨 (10,000원)",
-            s.cash<10000,
-            buySnack,
-            true
-    ));
-   }else{
-    const p2=document.createElement("p");
-    p2.className="small muted";
-    p2.textContent="오늘 간식 구매 완료 · 다음 날 고양이 방문 확률 증가";
-    area.append(p2);
-   }
 
    return;
   }
@@ -1947,20 +2284,6 @@
     const p=document.createElement("p");
     p.className="muted small";
     p.textContent="오늘 참치캔 재시도는 이미 사용했습니다.";
-    area.append(p);
-   }
-
-   if(!s.snackBoughtToday){
-    area.append(button(
-            "직원 간식 구매하기 🥨 (10,000원)",
-            s.cash<10000,
-            buySnack,
-            true
-    ));
-   }else{
-    const p=document.createElement("p");
-    p.className="small muted";
-    p.textContent="오늘 직원 간식 구매 완료 · 다음 날 방문 확률 보너스 적용 예정";
     area.append(p);
    }
 
@@ -1991,20 +2314,6 @@
    }
   }
 
-  if(!s.snackBoughtToday){
-   area.append(button(
-           "직원 간식 구매하기 🥨 (10,000원)",
-           s.cash<10000,
-           buySnack,
-           true
-   ));
-  }else{
-   const p=document.createElement("p");
-   p.className="small muted";
-   p.style.marginTop="10px";
-   p.textContent="오늘 직원 간식 구매 완료 · 다음 날 방문 확률 보너스 적용 예정";
-   area.append(p);
-  }
  }
 
  function render(){
@@ -2216,7 +2525,8 @@
 
   const nextDay=s.day+1;
   
-  const income = regularIncome();
+  const income = Math.max(0, regularIncome()-s.sickIncomePenalty);
+  s.sickIncomePenalty=0;
   addIncome(income);
   s.revenue += income;
   log(`💰 정기 수익 지급! ${won(income)} 획득`);
@@ -2241,6 +2551,8 @@
   }
   s.day=nextDay;
   s.ap=s.maxAp;
+  s.cafeteriaActionCount=0;
+  s.cafeteriaServedToday=false;
 
   resetDailyStats();
   newDailyMissions();
@@ -2250,6 +2562,9 @@
   s.catClaimed=false;
 
   s.snackBoughtToday=false;
+  s.foodTruckShownToday=false;
+  s.sickEventShownToday=false;
+  s.sickIncomePenalty=0;
   s.catBonusToday=s.catBonusNextDay;
   s.catBonusNextDay=0;
 
