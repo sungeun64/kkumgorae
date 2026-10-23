@@ -1788,7 +1788,7 @@
   log("💬 불라불라에 푸드트럭 관련 글이 올라왔습니다.");
  }
  function maybeFoodTruckEvent(actionAp) {
-  if(actionAp<=0 || s.foodTruckShownToday || Math.random()>=0.18) return;
+  if(actionAp<=0 || s.foodTruckShownToday || Math.random()>=0.07) return;
   s.foodTruckShownToday=true;
   const truck=foodTruckOptions[randomInt(0,foodTruckOptions.length-1)];
   showPopup(truck.icon,`회사 앞에 ${truck.name} 트럭이 도착했어요!`,
