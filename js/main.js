@@ -1429,11 +1429,11 @@ $("nextDay").addEventListener("click",()=>{
     render();
 });
 
+loadCafeteriaMenuData().catch(error => {
+    console.error("구내식당 데이터 사전 로딩 실패:", error);
+});
+
 resetDailyStats();
 newDailyMissions();
 previewGoal();
 render();
-
-loadCafeteriaMenuData().catch(error => {
-    console.error("구내식당 데이터 사전 로딩 실패:", error);
-});
