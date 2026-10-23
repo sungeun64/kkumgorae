@@ -1953,15 +1953,6 @@ ${truck.name}을(를) 직원들에게 사줄까요?
     log(`🔬 연구 완료! 연구 단계 ${s.research}`);
    }),"Lv."+s.research));
   }else{
-   if(s.room<6){
-    area.append(row("🍱 구내식당","사무실 Lv.6부터 선택적으로 설치할 수 있어요. 직원 점심 식단과 만족도에 영향을 줍니다.","Lv.6에서 해금",true,()=>{},"잠김"));
-   }else if(!s.cafeteriaInstalled){
-    area.append(row("🍱 구내식당 설치","선택 사항 · 설치하면 하루 두 번째 AP 소모 행동 후 점심 식단이 제공됩니다.","구내식당 설치 · 무료",false,()=>{s.cafeteriaInstalled=true;s.cafeteriaLevel=0;s.cafeteriaActionCount=0;log("🍱 구내식당을 설치했습니다. 하루 두 번째 행동 후 점심시간이 발동합니다.");render();},"선택 복지"));
-   }else{
-    const cafeteriaCurrent=cafeteriaTiers[s.cafeteriaLevel];
-    area.append(row(`🍱 구내식당 · ${cafeteriaCurrent.name} (${s.cafeteriaLevel+1}/${cafeteriaTiers.length})`,`하루 두 번째 AP 소모 행동 후 점심 제공 · 식단 점수 보정 +${cafeteriaCurrent.scoreBonus}`,s.cafeteriaLevel<cafeteriaTiers.length-1?`퀄리티 업그레이드 · ${won(cafeteriaTiers[s.cafeteriaLevel+1].cost)}`:"최고 레벨",s.cafeteriaLevel>=cafeteriaTiers.length-1||!can(0,cafeteriaTiers[s.cafeteriaLevel+1]?.cost||0),upgradeCafeteria,s.cafeteriaLevel>=cafeteriaTiers.length-1?"MAX":"식당 개선"));
-    const status=document.createElement("div");status.className="notice";status.textContent=s.cafeteriaServedToday?"오늘 점심 제공 완료 · 내일 다시 식단이 제공됩니다.":`오늘 AP 소모 행동 ${s.cafeteriaActionCount}/2회 · ${2-s.cafeteriaActionCount}회 더 행동하면 점심시간입니다.`;area.append(status);
-   }
    const envLevel=s.environmentLevel, envCurrent=environmentTiers[envLevel];
    if(envLevel<environmentTiers.length-1){const next=environmentTiers[envLevel+1];area.append(row(`🌿 회사 환경 · ${envCurrent.name}`,`다음 등급 ${next.name} · 만족도 +${next.bonus}`,`${next.name}으로 업그레이드 · ${won(next.cost)}`,!can(0,next.cost),()=>upgradeOfficeAmenity("environment",environmentTiers),"환경"));}
    else area.append(row(`🌿 회사 환경 · ${envCurrent.name}`,`최고 등급 · 만족도 보너스 +${envCurrent.bonus}`,"최고 등급",true,()=>{},"MAX"));
@@ -1983,6 +1974,15 @@ ${truck.name}을(를) 직원들에게 사줄까요?
     area.append(row(`🪑 책상·의자 업그레이드 · ${currentTier.name}`,
      `최고 등급 · 직원 만족도 보너스 +${currentTier.satisfactionBonus} · 신규 채용비 ${won(currentHireCost())}`,
      "최고 등급",true,()=>{},"MAX"));
+   }
+   if(s.room<6){
+    area.append(row("🍱 구내식당","사무실 Lv.6부터 선택적으로 설치할 수 있어요. 직원 점심 식단과 만족도에 영향을 줍니다.","Lv.6에서 해금",true,()=>{},"잠김"));
+   }else if(!s.cafeteriaInstalled){
+    area.append(row("🍱 구내식당 설치","선택 사항 · 설치하면 하루 두 번째 AP 소모 행동 후 점심 식단이 제공됩니다.","구내식당 설치 · 무료",false,()=>{s.cafeteriaInstalled=true;s.cafeteriaLevel=0;s.cafeteriaActionCount=0;log("🍱 구내식당을 설치했습니다. 하루 두 번째 행동 후 점심시간이 발동합니다.");render();},"선택 복지"));
+   }else{
+    const cafeteriaCurrent=cafeteriaTiers[s.cafeteriaLevel];
+    area.append(row(`🍱 구내식당 · ${cafeteriaCurrent.name} (${s.cafeteriaLevel+1}/${cafeteriaTiers.length})`,`하루 두 번째 AP 소모 행동 후 점심 제공 · 식단 점수 보정 +${cafeteriaCurrent.scoreBonus}`,s.cafeteriaLevel<cafeteriaTiers.length-1?`퀄리티 업그레이드 · ${won(cafeteriaTiers[s.cafeteriaLevel+1].cost)}`:"최고 레벨",s.cafeteriaLevel>=cafeteriaTiers.length-1||!can(0,cafeteriaTiers[s.cafeteriaLevel+1]?.cost||0),upgradeCafeteria,s.cafeteriaLevel>=cafeteriaTiers.length-1?"MAX":"식당 개선"));
+    const status=document.createElement("div");status.className="notice";status.textContent=s.cafeteriaServedToday?"오늘 점심 제공 완료 · 내일 다시 식단이 제공됩니다.":`오늘 AP 소모 행동 ${s.cafeteriaActionCount}/2회 · ${2-s.cafeteriaActionCount}회 더 행동하면 점심시간입니다.`;area.append(status);
    }
    if(s.room>=10){
     const n=document.createElement("p");n.className="muted";n.textContent="최대 사무실 단계 Lv.10에 도달했습니다!";area.append(n);
