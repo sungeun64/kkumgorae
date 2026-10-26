@@ -965,3 +965,31 @@ body.not-started header {
 #authMessage { min-height:18px; line-height:1.6; color:var(--blue-dark); overflow-wrap:anywhere; }
 @media(max-width:900px) { .account-toolbar { margin:12px; align-items:stretch; flex-direction:column; } .account-toolbar-actions { justify-content:flex-start; } }
 @media(max-width:520px) { .account-toolbar-actions { display:grid; grid-template-columns:1fr 1fr; } .account-toolbar-actions button { width:100%; padding:10px 6px; } .account-card { padding:22px; } }
+
+.account-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 13px;
+}
+
+.account-header button {
+    padding: 5px 9px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--navy);
+    cursor: pointer;
+}
+
+.account-header button[hidden],
+#nicknameField[hidden],
+#accountStartChoices[hidden] {
+    display: none !important;
+}
+
+#accountNickname {
+    font-weight: 600;
+    color: var(--navy);
+}

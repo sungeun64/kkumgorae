@@ -24,8 +24,10 @@
    <input id="authEmail" type="email" autocomplete="email" placeholder="name@example.com" required>
    <label for="authPassword">비밀번호<span class="muted small">8자 이상</span></label>
    <input id="authPassword" type="password" autocomplete="current-password" minlength="8" placeholder="8자 이상" required>
-   <label for="authNickname">닉네임 <span class="muted small">(회원가입 시 선택)</span></label>
-   <input id="authNickname" type="text" maxlength="20" autocomplete="nickname" placeholder="표시할 닉네임">
+   <div id="nicknameField">
+    <label for="authNickname">닉네임</label>
+    <input id="authNickname" type="text" maxlength="20" autocomplete="nickname" placeholder="표시할 닉네임">
+   </div>
    <div class="account-actions">
     <button type="submit" id="loginButton">로그인</button>
     <button type="button" id="signupButton" class="secondary">회원가입</button>
@@ -45,7 +47,6 @@
    <label for="companyNameInput">회사 이름</label>
    <input id="companyNameInput" type="text" maxlength="30" value="꿈꾸는 고래 컴퍼니" autocomplete="off" required>
    <div class="hint">기본 이름은 ‘꿈꾸는 고래 컴퍼니’입니다. 원하는 이름으로 바꿀 수 있어요.</div>
-
    <div class="form-group">
     <label>회사 로고 선택</label>
     <div class="logo-slider" id="companyLogoSlider">
@@ -90,6 +91,15 @@
    <button id="startButton" type="submit">회사 설립하고 시작하기 🚀</button>
   </form>
  </div>
+ <div id="accountStartChoices" hidden>
+  <button id="savedCompanyButton" type="button">
+   저장된 회사 진행하기
+  </button>
+
+  <button id="newCompanyButton" type="button">
+   새 회사 진행하기
+  </button>
+ </div>
 </div>
 
 <div class="start-overlay" id="outcomeOverlay" hidden>
@@ -121,21 +131,13 @@
    <p>작은 사무실에서 시작하는 나만의 회사 키우기</p>
   </div>
  </div>
+ <div id="accountHeader" class="account-header">
+  <span id="accountNickname">비회원</span>
+  <button id="headerSaveButton" type="button" hidden>저장</button>
+  <button id="headerLogoutButton" type="button" hidden>로그아웃</button>
+ </div>
  <div class="pill" id="dayBadge">DAY 1</div>
 </header>
-
-<div class="account-toolbar" id="accountToolbar">
- <div class="account-toolbar-info"><strong id="accountModeLabel">비회원 플레이</strong><span id="saveStatus">클라우드 저장은 회원 전용입니다.</span></div>
- <div class="account-toolbar-actions">
-  <button type="button" id="cloudSaveButton">☁️ 클라우드 저장</button>
-  <button type="button" id="cloudLoadButton" class="secondary">☁️ 불러오기</button>
-  <button type="button" id="jsonExportButton" class="secondary">📤 JSON 백업</button>
-  <button type="button" id="jsonImportButton" class="secondary">📥 JSON 복원</button>
-  <button type="button" id="accountSwitchButton" class="secondary">로그인 / 계정 전환</button>
-  <button type="button" id="logoutButton" class="secondary" hidden>로그아웃</button>
-  <input id="jsonImportFile" type="file" accept=".json,application/json" hidden>
- </div>
-</div>
 
 <div class="wrap">
  <section class="hero">

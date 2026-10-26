@@ -74,13 +74,24 @@ let playMode = "guest"; // guest | member
 const SAVE_APP = "kkumgorae";
 const SAVE_VERSION = 1;
 
-function updateAccountUI(message) {
-    const label = $("accountModeLabel");
-    const status = $("saveStatus");
-    if (label) label.textContent = currentUser ? `회원: ${currentUser.email || "로그인됨"}` : "비회원 플레이";
-    if (status && message) status.textContent = message;
-    const logout = $("logoutButton");
-    if (logout) logout.hidden = !currentUser;
+function updateAccountUI(message = "") {
+    const nickname = $("accountNickname");
+
+    if (!currentUser) {
+        nickname.textContent = "비회원";
+        $("headerSaveButton").hidden = true;
+        $("headerLogoutButton").hidden = true;
+        return;
+    }
+
+    const userNickname =
+        currentUser.user_metadata?.nickname ||
+        currentUser.email?.split("@")[0] ||
+        "회원";
+
+    nickname.textContent = userNickname;
+    $("headerSaveButton").hidden = false;
+    $("headerLogoutButton").hidden = false;
 }
 
 function showEntryScreen(message = "") {
@@ -88,6 +99,7 @@ function showEntryScreen(message = "") {
     $("startOverlay").hidden = true;
     document.body.classList.add("not-started");
     $("authMessage").textContent = message;
+    setAuthMode("login");
 }
 
 function enterAsGuest() {
@@ -167,20 +179,72 @@ async function signInAccount(event) {
     await enterAfterLogin();
 }
 
-async function enterAfterLogin() {
-    $("entryOverlay").hidden = true;
-    updateAccountUI("로그인 완료. 저장 데이터 확인 중...");
-    $("startOverlay").hidden = false;
-    document.body.classList.add("not-started");
-    if (!cloudClient || !currentUser) return;
-    const { data, error } = await cloudClient.from("company_saves").select("save_data, updated_at").eq("user_id", currentUser.id).maybeSingle();
-    if (error) { updateAccountUI("저장 데이터 확인 실패: " + error.message); return; }
-    if (data && confirm("이 계정에 클라우드 저장 데이터가 있어요. 불러올까요? 현재 화면의 진행 상황은 교체됩니다.")) {
-        try { applySaveData(data.save_data); updateAccountUI("불러온 저장: " + new Date(data.updated_at).toLocaleString("ko-KR")); }
-        catch (err) { alert("저장 데이터를 불러오지 못했습니다: " + err.message); }
-    } else {
-        updateAccountUI(data ? "클라우드 저장 데이터가 있습니다." : "아직 클라우드 저장 데이터가 없습니다.");
+$("savedCompanyButton").addEventListener("click", async () => {
+    if (!currentUser || !cloudClient) return;
+
+    const { data, error } = await cloudClient
+        .from("company_saves")
+        .select("save_data, updated_at")
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
+    if (error) {
+        alert("저장 데이터 불러오기 실패: " + error.message);
+        return;
     }
+    if (!data) {
+        alert("저장된 회사가 없습니다.");
+        return;
+    }
+    try {
+        applySaveData(data.save_data);
+        $("startOverlay").hidden = true;
+        $("entryOverlay").hidden = true;
+        render();
+        updateAccountUI("저장된 회사 진행 중");
+    } catch (error) {
+        alert("저장 데이터를 불러오지 못했습니다: " + error.message);
+    }
+});
+
+$("newCompanyButton").addEventListener("click", () => {
+    s = freshState();
+    tab = "office";
+    sideTab = "logs";
+
+    $("accountStartChoices").hidden = true;
+
+    // 기존 회사 설립·목표 설정 흐름 유지
+    $("startOverlay").hidden = false;
+    render();
+});
+async function enterAfterLogin() {
+    updateAccountUI("로그인 완료");
+    $("entryOverlay").hidden = true;
+
+    // 기존 회사 시작 팝업 표시
+    $("startOverlay").hidden = false;
+
+    // 기존 시작 팝업에 저장 여부 선택 버튼 표시
+    $("savedCompanyButton").hidden = false;
+    $("newCompanyButton").hidden = false;
+
+    const { data, error } = await cloudClient
+        .from("company_saves")
+        .select("updated_at")
+        .eq("user_id", currentUser.id)
+        .maybeSingle();
+
+    if (error) {
+        updateAccountUI("저장 데이터 확인 실패: " + error.message);
+        return;
+    }
+
+    $("savedCompanyButton").disabled = !data;
+    $("savedCompanyButton").textContent = data
+        ? "저장된 회사 진행하기"
+        : "저장된 회사 없음";
+
+    $("newCompanyButton").textContent = "새 회사 진행하기";
 }
 
 async function saveCloudSave() {
@@ -241,10 +305,21 @@ function signOutAccount() {
     });
 }
 
+function setAuthMode(mode) {
+    const isSignup = mode === "signup";
+
+    $("nicknameField").hidden = !isSignup;
+    $("signupButton").hidden = isSignup === false;
+    $("loginButton").hidden = isSignup;
+}
+
 function initializeAccountAccess() {
     $("guestStartButton").addEventListener("click", enterAsGuest);
     $("authForm").addEventListener("submit", signInAccount);
     $("signupButton").addEventListener("click", signUpAccount);
+    $("loginButton").addEventListener("click", signInAccount);
+    $("headerSaveButton").addEventListener("click", saveCloudSave);
+    $("headerLogoutButton").addEventListener("click", signOutAccount);
     $("cloudSaveButton").addEventListener("click", saveCloudSave);
     $("cloudLoadButton").addEventListener("click", loadCloudSave);
     $("jsonExportButton").addEventListener("click", exportJsonBackup);
@@ -1623,6 +1698,7 @@ $("nextDay").addEventListener("click",()=>{
     maybeStaffResignation();
     render();
 });
+
 
 initializeAccountAccess();
 
