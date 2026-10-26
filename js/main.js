@@ -310,13 +310,11 @@ function setAuthMode(mode) {
     const isSignup = mode === "signup";
 
     $("nicknameField").hidden = !isSignup;
-    $("signupButton").hidden = !isSignup;
     $("loginButton").hidden = isSignup;
 
     // 로그인 / 회원가입 화면 전환 버튼
     $("showSignupButton").hidden = isSignup;
     $("showLoginButton").hidden = !isSignup;
-    $("loginButton").hidden = !isSignup;
 
     // 화면 제목도 전환하고 싶다면 사용
     if ($("showSignupButton")) {
