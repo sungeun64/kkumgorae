@@ -313,13 +313,7 @@ function setAuthMode(mode) {
     $("login").hidden = isSignup;
     $("signup").hidden = !isSignup;
     
-    //$("loginButton").hidden = isSignup;
-    //$("showSignupButton").hidden = isSignup;
     $("nicknameField").hidden = !isSignup;
-    
-    // 로그인 / 회원가입 화면 전환 버튼
-    //$("signupButton").hidden = !isSignup;
-    //$("showLoginButton").hidden = !isSignup;
     
     $("authMessage").textContent = "";
 }

@@ -984,6 +984,10 @@ body.not-started header {
 }
 
 .account-header button[hidden],
+
+#account-actions[hidden]{
+    display: none !important;
+}
 #nicknameField[hidden] {
     display: none !important;
 }
