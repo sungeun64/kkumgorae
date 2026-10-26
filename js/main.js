@@ -316,12 +316,11 @@ function setAuthMode(mode) {
     // 로그인 / 회원가입 화면 전환 버튼
     $("showSignupButton").hidden = isSignup;
     $("showLoginButton").hidden = !isSignup;
+    $("loginButton").hidden = !isSignup;
 
     // 화면 제목도 전환하고 싶다면 사용
-    if ($("authTitle")) {
-        $("authTitle").textContent = isSignup
-            ? "회원가입"
-            : "로그인";
+    if ($("showSignupButton")) {
+        $("showSignupButton").textContent = isSignup?"회원가입 하기": "회원가입";
     }
     $("showSignupButton").addEventListener("click", signUpAccount);
     $("authMessage").textContent = "";
@@ -330,7 +329,7 @@ function setAuthMode(mode) {
 function initializeAccountAccess() {
     $("guestStartButton").addEventListener("click", enterAsGuest);
     //$("authForm").addEventListener("submit", signInAccount);
-    $("signupButton").addEventListener("click", signUpAccount);
+    //$("signupButton").addEventListener("click", signUpAccount);
     $("loginButton").addEventListener("click", signInAccount);
     $("headerSaveButton").addEventListener("click", saveCloudSave);
     $("headerLogoutButton").addEventListener("click", signOutAccount);
