@@ -317,9 +317,8 @@ function setAuthMode(mode) {
     $("showLoginButton").hidden = !isSignup;
 
     // 화면 제목도 전환하고 싶다면 사용
-    if ($("showSignupButton")) {
-        $("showSignupButton").textContent = isSignup?"회원가입 하기": "회원가입";
-    }
+    $("showSignupButton").textContent = isSignup?"회원가입 하기": "회원가입";
+    
     $("showSignupButton").addEventListener("click", signUpAccount);
     $("authMessage").textContent = "";
 }
