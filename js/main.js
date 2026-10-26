@@ -104,11 +104,13 @@ function enterAsGuest() {
     currentUser = null;
     playMode = "guest";
     $("entryOverlay").hidden = true;
-    $("startOverlay").hidden = false;
     $("outcomeOverlay").hidden = true;
     $("eventOverlay").hidden = true;
     $("accountStartChoices").hidden = true;
     $("companySetup").hidden = false;
+    $("startOverlay").hidden = false;
+    //$("accountStartChoices").hidden = true;
+    //$("companySetup").hidden = false;
     document.body.classList.add("not-started");
     updateAccountUI("비회원은 클라우드 저장을 사용할 수 없습니다.");
     render();
@@ -210,13 +212,8 @@ $("newCompanyButton").addEventListener("click", () => {
     s = freshState();
     tab = "office";
     sideTab = "logs";
-
-    // 회사 선택 화면 숨기기
     $("accountStartChoices").hidden = true;
-
-    // 기존 회사 설립 화면 표시
     $("companySetup").hidden = false;
-
     render();
 });
 async function enterAfterLogin() {

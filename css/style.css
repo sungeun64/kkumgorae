@@ -984,7 +984,9 @@ body.not-started header {
 }
 
 .account-header button[hidden],
-#nicknameField[hidden],
+#nicknameField[hidden] {
+    display: none !important;
+}
 #accountStartChoices[hidden] {
     display: none !important;
 }
