@@ -319,7 +319,9 @@ function setAuthMode(mode) {
     // 화면 제목도 전환하고 싶다면 사용
     $("showSignupButton").text = isSignup?"회원가입 하기": "회원가입";
     
-    $("showSignupButton").addEventListener("click", signUpAccount);
+    if(isSignup){$("showSignupButton").addEventListener("click", signUpAccount);}
+    else { $("showSignupButton").removeEventListener("click", signUpAccount); }
+    
     $("authMessage").textContent = "";
 }
 
