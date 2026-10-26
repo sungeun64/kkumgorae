@@ -95,7 +95,8 @@ function updateAccountUI(message = "") {
 function showEntryScreen(message = "") {
     $("entryOverlay").hidden = false;
     $("startOverlay").hidden = true;
-    $("loginButton").hidden = false;
+    $("login").hidden = false;
+    $("signup").hidden = true;
     document.body.classList.add("not-started");
     $("authMessage").textContent = message;
     setAuthMode("login");
@@ -309,14 +310,16 @@ function signOutAccount() {
 
 function setAuthMode(mode) {
     const isSignup = mode === "signup";
- 
-    $("loginButton").hidden = isSignup;
-    $("showSignupButton").hidden = isSignup;
+    $("login").hidden = !isSignup;
+    $("signup").hidden = isSignup;
+    
+    //$("loginButton").hidden = isSignup;
+    //$("showSignupButton").hidden = isSignup;
     $("nicknameField").hidden = !isSignup;
     
     // 로그인 / 회원가입 화면 전환 버튼
-    $("signupButton").hidden = !isSignup;
-    $("showLoginButton").hidden = !isSignup;
+    //$("signupButton").hidden = !isSignup;
+    //$("showLoginButton").hidden = !isSignup;
     
     $("authMessage").textContent = "";
 }
