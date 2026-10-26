@@ -995,3 +995,14 @@ body.not-started header {
     font-weight: 600;
     color: var(--navy);
 }
+
+.accountStartChoices {
+    width:min(460px,100%);
+    background:#fff;
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:24px;
+    padding:28px;
+    box-shadow:0 25px 90px rgba(5,15,34,.28);
+    max-height:95vh;
+    overflow:auto;
+}
