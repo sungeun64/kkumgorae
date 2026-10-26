@@ -310,8 +310,8 @@ function signOutAccount() {
 
 function setAuthMode(mode) {
     const isSignup = mode === "signup";
-    $("login").hidden = !isSignup;
-    $("signup").hidden = isSignup;
+    $("login").hidden = isSignup;
+    $("signup").hidden = !isSignup;
     
     //$("loginButton").hidden = isSignup;
     //$("showSignupButton").hidden = isSignup;
