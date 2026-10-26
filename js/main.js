@@ -95,8 +95,6 @@ function updateAccountUI(message = "") {
 function showEntryScreen(message = "") {
     $("entryOverlay").hidden = false;
     $("startOverlay").hidden = true;
-    $("login").hidden = false;
-    $("signup").hidden = true;
     document.body.classList.add("not-started");
     $("authMessage").textContent = message;
     setAuthMode("login");
@@ -1718,4 +1716,5 @@ loadCafeteriaMenuData().catch(error => {
 resetDailyStats();
 newDailyMissions();
 previewGoal();
+setAuthMode("login");
 render();
