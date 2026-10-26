@@ -329,7 +329,7 @@ function setAuthMode(mode) {
 
 function initializeAccountAccess() {
     $("guestStartButton").addEventListener("click", enterAsGuest);
-    $("authForm").addEventListener("submit", signInAccount);
+    //$("authForm").addEventListener("submit", signInAccount);
     $("signupButton").addEventListener("click", signUpAccount);
     $("loginButton").addEventListener("click", signInAccount);
     $("headerSaveButton").addEventListener("click", saveCloudSave);
