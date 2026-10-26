@@ -95,6 +95,7 @@ function updateAccountUI(message = "") {
 function showEntryScreen(message = "") {
     $("entryOverlay").hidden = false;
     $("startOverlay").hidden = true;
+    $("loginButton").hidden = false;
     document.body.classList.add("not-started");
     $("authMessage").textContent = message;
     setAuthMode("login");
@@ -308,15 +309,15 @@ function signOutAccount() {
 
 function setAuthMode(mode) {
     const isSignup = mode === "signup";
-
-    $("nicknameField").hidden = !isSignup;
+ 
     $("loginButton").hidden = isSignup;
-
+    $("nicknameField").hidden = !isSignup;
+    
     // 로그인 / 회원가입 화면 전환 버튼
     $("showLoginButton").hidden = !isSignup;
 
     // 화면 제목도 전환하고 싶다면 사용
-    $("showSignupButton").textContent = isSignup?"회원가입 하기": "회원가입";
+    $("showSignupButton").text = isSignup?"회원가입 하기": "회원가입";
     
     $("showSignupButton").addEventListener("click", signUpAccount);
     $("authMessage").textContent = "";
