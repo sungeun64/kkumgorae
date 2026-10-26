@@ -83,12 +83,10 @@ function updateAccountUI(message = "") {
         $("headerLogoutButton").hidden = true;
         return;
     }
-
     const userNickname =
         currentUser.user_metadata?.nickname ||
         currentUser.email?.split("@")[0] ||
         "회원";
-
     nickname.textContent = userNickname;
     $("headerSaveButton").hidden = false;
     $("headerLogoutButton").hidden = false;
@@ -109,8 +107,10 @@ function enterAsGuest() {
     $("startOverlay").hidden = false;
     $("outcomeOverlay").hidden = true;
     $("eventOverlay").hidden = true;
+    $("accountStartChoices").hidden = true;
+    $("companySetup").hidden = false;
     document.body.classList.add("not-started");
-    updateAccountUI("비회원은 클라우드 저장을 사용할 수 없습니다. JSON 백업은 이용할 수 있어요.");
+    updateAccountUI("비회원은 클라우드 저장을 사용할 수 없습니다.");
     render();
 }
 
@@ -211,10 +211,12 @@ $("newCompanyButton").addEventListener("click", () => {
     tab = "office";
     sideTab = "logs";
 
+    // 회사 선택 화면 숨기기
     $("accountStartChoices").hidden = true;
 
-    // 기존 회사 설립·목표 설정 흐름 유지
-    $("startOverlay").hidden = false;
+    // 기존 회사 설립 화면 표시
+    $("companySetup").hidden = false;
+
     render();
 });
 async function enterAfterLogin() {
@@ -223,7 +225,8 @@ async function enterAfterLogin() {
 
     // 기존 회사 시작 팝업 표시
     $("startOverlay").hidden = false;
-
+    $("accountStartChoices").hidden = false;
+    $("companySetup").hidden = true;
     // 기존 시작 팝업에 저장 여부 선택 버튼 표시
     $("savedCompanyButton").hidden = false;
     $("newCompanyButton").hidden = false;
