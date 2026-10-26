@@ -65,6 +65,199 @@ let sideTab = "logs";
 let modalCallback = null;
 let modalCancelCallback = null;
 
+// Supabase 인증 설정: 대시보드의 Project URL과 publishable key를 입력하세요.
+const SUPABASE_URL = "https://dwmqofazehgxthinxecb.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_kFFYib9oVpl1w184AnNHJQ_IthP1nE4";
+const cloudClient =  window.supabase? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY): null;
+let currentUser = null;
+let playMode = "guest"; // guest | member
+const SAVE_APP = "kkumgorae";
+const SAVE_VERSION = 1;
+
+function updateAccountUI(message) {
+    const label = $("accountModeLabel");
+    const status = $("saveStatus");
+    if (label) label.textContent = currentUser ? `회원: ${currentUser.email || "로그인됨"}` : "비회원 플레이";
+    if (status && message) status.textContent = message;
+    const logout = $("logoutButton");
+    if (logout) logout.hidden = !currentUser;
+}
+
+function showEntryScreen(message = "") {
+    $("entryOverlay").hidden = false;
+    $("startOverlay").hidden = true;
+    document.body.classList.add("not-started");
+    $("authMessage").textContent = message;
+}
+
+function enterAsGuest() {
+    currentUser = null;
+    playMode = "guest";
+    $("entryOverlay").hidden = true;
+    $("startOverlay").hidden = false;
+    $("outcomeOverlay").hidden = true;
+    $("eventOverlay").hidden = true;
+    document.body.classList.add("not-started");
+    updateAccountUI("비회원은 클라우드 저장을 사용할 수 없습니다. JSON 백업은 이용할 수 있어요.");
+    render();
+}
+
+function makeSaveData() {
+    return { app: SAVE_APP, version: SAVE_VERSION, savedAt: new Date().toISOString(), state: s, tab, sideTab };
+}
+
+function validateSaveData(data) {
+    if (!data || typeof data !== "object" || data.app !== SAVE_APP || data.version !== SAVE_VERSION || !data.state || typeof data.state !== "object") {
+        throw new Error("지원하지 않거나 올바르지 않은 저장 파일입니다.");
+    }
+    const state = data.state;
+    if (typeof state.started !== "boolean" || !Array.isArray(state.logs) || !Array.isArray(state.anonymousPosts) || !Array.isArray(state.missions)) {
+        throw new Error("저장 데이터의 필수 항목이 없거나 손상되었습니다.");
+    }
+    if (![state.cash, state.revenue, state.ap, state.day, state.staff, state.room, state.level].every(Number.isFinite) || state.cash < 0 || state.staff < 0 || state.room < 1 || state.room > caps.length) {
+        throw new Error("저장 데이터의 숫자 값이 올바르지 않습니다.");
+    }
+}
+
+function applySaveData(data) {
+    validateSaveData(data);
+    const defaults = freshState();
+    s = { ...defaults, ...data.state };
+    s.dailyStats = { ...defaults.dailyStats, ...(data.state.dailyStats || {}) };
+    tab = ["sales", "staff", "research", "office"].includes(data.tab) ? data.tab : "sales";
+    sideTab = ["logs", "anonymous"].includes(data.sideTab) ? data.sideTab : "logs";
+    $("companyNameInput").value = s.companyName || "꿈꾸는 고래 컴퍼니";
+    $("companyLogoInput").value = s.companyLogo || "🐳";
+    document.querySelectorAll("#companyLogoSlider .logo-option").forEach(button => button.classList.toggle("selected", button.dataset.logo === (s.companyLogo || "🐳")));
+    $("entryOverlay").hidden = true;
+    $("startOverlay").hidden = s.started;
+    $("outcomeOverlay").hidden = true;
+    $("eventOverlay").hidden = true;
+    document.body.classList.toggle("not-started", !s.started);
+    render();
+}
+
+async function signUpAccount() {
+    if (!cloudClient) { $("authMessage").textContent = "Supabase 설정이 아직 필요합니다. 설정값을 입력한 뒤 다시 시도해 주세요."; return; }
+    const email = $("authEmail").value.trim();
+    const password = $("authPassword").value;
+    const nickname = $("authNickname").value.trim();
+    $("authMessage").textContent = "회원가입 처리 중...";
+    const { data, error } = await cloudClient.auth.signUp({ email, password, options: { data: { nickname } } });
+    if (error) { $("authMessage").textContent = "회원가입 실패: " + error.message; return; }
+    if (!data.session) {
+        $("authMessage").textContent = "가입 요청이 완료됐어요. 이메일 확인을 마친 뒤 로그인해 주세요.";
+        return;
+    }
+    currentUser = data.user;
+    playMode = "member";
+    await enterAfterLogin();
+}
+
+async function signInAccount(event) {
+    if (event) event.preventDefault();
+    if (!cloudClient) { $("authMessage").textContent = "Supabase 설정이 아직 필요합니다. 설정값을 입력한 뒤 다시 시도해 주세요."; return; }
+    const email = $("authEmail").value.trim();
+    const password = $("authPassword").value;
+    $("authMessage").textContent = "로그인 중...";
+    const { data, error } = await cloudClient.auth.signInWithPassword({ email, password });
+    if (error) { $("authMessage").textContent = "로그인 실패: 이메일 또는 비밀번호를 확인해 주세요."; return; }
+    currentUser = data.user;
+    playMode = "member";
+    await enterAfterLogin();
+}
+
+async function enterAfterLogin() {
+    $("entryOverlay").hidden = true;
+    updateAccountUI("로그인 완료. 저장 데이터 확인 중...");
+    $("startOverlay").hidden = false;
+    document.body.classList.add("not-started");
+    if (!cloudClient || !currentUser) return;
+    const { data, error } = await cloudClient.from("company_saves").select("save_data, updated_at").eq("user_id", currentUser.id).maybeSingle();
+    if (error) { updateAccountUI("저장 데이터 확인 실패: " + error.message); return; }
+    if (data && confirm("이 계정에 클라우드 저장 데이터가 있어요. 불러올까요? 현재 화면의 진행 상황은 교체됩니다.")) {
+        try { applySaveData(data.save_data); updateAccountUI("불러온 저장: " + new Date(data.updated_at).toLocaleString("ko-KR")); }
+        catch (err) { alert("저장 데이터를 불러오지 못했습니다: " + err.message); }
+    } else {
+        updateAccountUI(data ? "클라우드 저장 데이터가 있습니다." : "아직 클라우드 저장 데이터가 없습니다.");
+    }
+}
+
+async function saveCloudSave() {
+    if (!currentUser || !cloudClient) { alert("클라우드 저장은 회원 전용입니다. 로그인 또는 회원가입해 주세요."); showEntryScreen("로그인하면 클라우드 저장을 이용할 수 있어요."); return; }
+    if (!s.started) { alert("먼저 회사를 설립해 주세요."); return; }
+    const saveData = makeSaveData();
+    const { error } = await cloudClient.from("company_saves").upsert({ user_id: currentUser.id, save_data: saveData, updated_at: new Date().toISOString() }, { onConflict: "user_id" });
+    if (error) { alert("클라우드 저장 실패: " + error.message); return; }
+    updateAccountUI("마지막 저장: " + new Date(saveData.savedAt).toLocaleString("ko-KR"));
+    alert("☁️ 회사 데이터가 클라우드에 저장됐어요!");
+}
+
+async function loadCloudSave() {
+    if (!currentUser || !cloudClient) { alert("클라우드 불러오기는 회원 전용입니다. 로그인해 주세요."); showEntryScreen("로그인하면 클라우드 저장을 이용할 수 있어요."); return; }
+    const { data, error } = await cloudClient.from("company_saves").select("save_data, updated_at").eq("user_id", currentUser.id).maybeSingle();
+    if (error) { alert("클라우드 불러오기 실패: " + error.message); return; }
+    if (!data) { alert("이 계정에 저장된 회사가 없습니다."); return; }
+    if (!confirm("현재 진행 상황을 클라우드 저장 데이터로 교체할까요?")) return;
+    try { applySaveData(data.save_data); updateAccountUI("불러온 저장: " + new Date(data.updated_at).toLocaleString("ko-KR")); }
+    catch (err) { alert("불러오기 실패: " + err.message); }
+}
+
+function exportJsonBackup() {
+    if (!s.started) { alert("먼저 회사를 설립해 주세요."); return; }
+    const saveData = makeSaveData();
+    const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: "application/json;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const safeName = (s.companyName || "꿈꾸는고래컴퍼니").replace(/[\\/:*?"<>|]/g, "_").slice(0, 40);
+    link.href = url; link.download = `${safeName}_백업.json`; document.body.appendChild(link); link.click(); link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    updateAccountUI("JSON 백업 파일을 내보냈습니다.");
+}
+
+async function importJsonBackup(file) {
+    if (!file) return;
+    try {
+        const data = JSON.parse(await file.text());
+        validateSaveData(data);
+        if (!confirm(`백업 파일 “${file.name}”의 진행 상황으로 교체할까요?`)) return;
+        applySaveData(data);
+        updateAccountUI("JSON 백업 파일을 복원했습니다. 클라우드에 반영하려면 저장 버튼을 눌러 주세요.");
+        alert("JSON 백업을 복원했어요. 클라우드 저장은 별도로 저장 버튼을 눌러야 반영됩니다.");
+    } catch (error) { alert("JSON 복원 실패: " + error.message); }
+}
+
+function signOutAccount() {
+    if (!cloudClient) { currentUser = null; playMode = "guest"; showEntryScreen(); updateAccountUI("비회원 플레이"); return; }
+    cloudClient.auth.signOut().then(({ error }) => {
+        if (error) { alert("로그아웃 실패: " + error.message); return; }
+        currentUser = null; playMode = "guest"; s = freshState(); tab = "sales"; sideTab = "logs";
+        $("authPassword").value = "";
+        $("entryOverlay").hidden = false; $("startOverlay").hidden = true;
+        $("outcomeOverlay").hidden = true; $("eventOverlay").hidden = true;
+        document.body.classList.add("not-started");
+        updateAccountUI("로그아웃했습니다. 비회원으로 계속 플레이할 수 있어요.");
+        render();
+    });
+}
+
+function initializeAccountAccess() {
+    $("guestStartButton").addEventListener("click", enterAsGuest);
+    $("authForm").addEventListener("submit", signInAccount);
+    $("signupButton").addEventListener("click", signUpAccount);
+    $("cloudSaveButton").addEventListener("click", saveCloudSave);
+    $("cloudLoadButton").addEventListener("click", loadCloudSave);
+    $("jsonExportButton").addEventListener("click", exportJsonBackup);
+    $("jsonImportButton").addEventListener("click", () => $("jsonImportFile").click());
+    $("jsonImportFile").addEventListener("change", async event => { const file = event.target.files?.[0]; if (file) await importJsonBackup(file); event.target.value = ""; });
+    $("accountSwitchButton").addEventListener("click", () => showEntryScreen("로그인하거나 비회원으로 새로 시작할 수 있어요."));
+    $("logoutButton").addEventListener("click", signOutAccount);
+    if (!cloudClient) $("authMessage").textContent = "회원 기능을 사용하려면 Supabase 설정이 필요합니다. 비회원 플레이는 바로 이용할 수 있어요.";
+    // 진입 화면은 매번 보여 줍니다. 로그인 세션이 남아 있어도 사용자가 비회원 시작을 선택할 수 있습니다.
+    updateAccountUI();
+}
+
+
 function showPopup(icon, title, message, callback, options = {}) {
     $("eventIcon").textContent = icon;
     $("eventTitle").textContent = title;
@@ -506,7 +699,7 @@ async function loadCafeteriaMenuData() {
             );
             const data = Object.fromEntries(entries);
             s.cafeteriaMenuData = data;
-            
+
             return data;
         } finally {
             s.cafeteriaMenuDataPromise = null;
@@ -1285,6 +1478,7 @@ function startGame(event){
     };
     s.started=true;
 
+    $("entryOverlay").hidden=true;
     $("startOverlay").hidden=true;
     document.body.classList.remove("not-started");
 
@@ -1429,6 +1623,8 @@ $("nextDay").addEventListener("click",()=>{
     maybeStaffResignation();
     render();
 });
+
+initializeAccountAccess();
 
 loadCafeteriaMenuData().catch(error => {
     console.error("구내식당 데이터 사전 로딩 실패:", error);
