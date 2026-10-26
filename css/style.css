@@ -795,7 +795,7 @@ header {
     margin-bottom:8px;
 }
 
-.start-card input[type="text"] {
+.start-card input {
     width:100%;
     border:1px solid #dfe5ef;
     border-radius:12px;
@@ -806,7 +806,7 @@ header {
     transition:border .18s,box-shadow .18s;
 }
 
-.start-card input[type="text"]:focus {
+.start-card input:focus {
     border-color:var(--blue);
     box-shadow:0 0 0 4px #5c7cfa18;
 }
