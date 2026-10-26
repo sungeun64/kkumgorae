@@ -320,13 +320,13 @@ function initializeAccountAccess() {
     $("loginButton").addEventListener("click", signInAccount);
     $("headerSaveButton").addEventListener("click", saveCloudSave);
     $("headerLogoutButton").addEventListener("click", signOutAccount);
-    $("cloudSaveButton").addEventListener("click", saveCloudSave);
-    $("cloudLoadButton").addEventListener("click", loadCloudSave);
-    $("jsonExportButton").addEventListener("click", exportJsonBackup);
-    $("jsonImportButton").addEventListener("click", () => $("jsonImportFile").click());
-    $("jsonImportFile").addEventListener("change", async event => { const file = event.target.files?.[0]; if (file) await importJsonBackup(file); event.target.value = ""; });
-    $("accountSwitchButton").addEventListener("click", () => showEntryScreen("로그인하거나 비회원으로 새로 시작할 수 있어요."));
-    $("logoutButton").addEventListener("click", signOutAccount);
+    //$("cloudSaveButton").addEventListener("click", saveCloudSave);
+    //$("cloudLoadButton").addEventListener("click", loadCloudSave);
+    //$("jsonExportButton").addEventListener("click", exportJsonBackup);
+    //$("jsonImportButton").addEventListener("click", () => $("jsonImportFile").click());
+    //$("jsonImportFile").addEventListener("change", async event => { const file = event.target.files?.[0]; if (file) await importJsonBackup(file); event.target.value = ""; });
+    //$("accountSwitchButton").addEventListener("click", () => showEntryScreen("로그인하거나 비회원으로 새로 시작할 수 있어요."));
+    //$("logoutButton").addEventListener("click", signOutAccount);
     if (!cloudClient) $("authMessage").textContent = "회원 기능을 사용하려면 Supabase 설정이 필요합니다. 비회원 플레이는 바로 이용할 수 있어요.";
     // 진입 화면은 매번 보여 줍니다. 로그인 세션이 남아 있어도 사용자가 비회원 시작을 선택할 수 있습니다.
     updateAccountUI();
